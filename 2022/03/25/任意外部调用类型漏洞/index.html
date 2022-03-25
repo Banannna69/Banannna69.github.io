@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>从 Visor.finance 事件学习任意外部调用漏洞 | Banana69</title><meta name="keywords" content="智能合约审计"><meta name="author" content="Banana69"><meta name="copyright" content="Banana69"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="攻击分析 首先查看攻击交易： https:&#x2F;&#x2F;etherscan.io&#x2F;tx&#x2F;0x69272d8c84d67d1da2f6425b339192fa472898dce936f24818fda415c1c1ff3f  可以看到从0地址俩次转出大量的vVISR代币，由于0地址不会主动转账或者授权配额，所以可以猜测这些vVISR代币是mint出来的。 然后使用blocksec的交易分析工具分析，https">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 Visor.finance 事件学习任意外部调用漏洞">
+<meta property="og:url" content="https://banana69.site/2022/03/25/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="Banana69">
+<meta property="og:description" content="攻击分析 首先查看攻击交易： https:&#x2F;&#x2F;etherscan.io&#x2F;tx&#x2F;0x69272d8c84d67d1da2f6425b339192fa472898dce936f24818fda415c1c1ff3f  可以看到从0地址俩次转出大量的vVISR代币，由于0地址不会主动转账或者授权配额，所以可以猜测这些vVISR代币是mint出来的。 然后使用blocksec的交易分析工具分析，https">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2022-03-25T04:42:54.000Z">
+<meta property="article:modified_time" content="2022-03-25T06:47:55.756Z">
+<meta property="article:author" content="Banana69">
+<meta property="article:tag" content="智能合约审计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://banana69.site/2022/03/25/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从 Visor.finance 事件学习任意外部调用漏洞',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-25 14:47:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/cat.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Banana69</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">从 Visor.finance 事件学习任意外部调用漏洞</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-03-25T04:42:54.000Z" title="发表于 2022-03-25 12:42:54">2022-03-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">智能合约</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="从 Visor.finance 事件学习任意外部调用漏洞"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h3 id="攻击分析"><a href="#攻击分析" class="headerlink" title="攻击分析"></a>攻击分析</h3><p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220320221429315.png" alt="image-20220320221429315"></p>
+<p>首先查看攻击交易：</p>
+<p><a target="_blank" rel="noopener" href="https://etherscan.io/tx/0x69272d8c84d67d1da2f6425b339192fa472898dce936f24818fda415c1c1ff3f">https://etherscan.io/tx/0x69272d8c84d67d1da2f6425b339192fa472898dce936f24818fda415c1c1ff3f</a></p>
+<p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220320221534097.png" alt="image-20220320221534097"></p>
+<p>可以看到从0地址俩次转出大量的vVISR代币，由于<strong>0地址不会主动转账或者授权配额</strong>，所以可以猜测这些vVISR代币是mint出来的。</p>
+<p>然后使用blocksec的交易分析工具分析，<a target="_blank" rel="noopener" href="https://versatile.blocksecteam.com/tx/eth/0x69272d8c84d67d1da2f6425b339192fa472898dce936f24818fda415c1c1ff3f%EF%BC%8C%E4%BD%BF%E7%94%A8">https://versatile.blocksecteam.com/tx/eth/0x69272d8c84d67d1da2f6425b339192fa472898dce936f24818fda415c1c1ff3f，使用</a> invocation flow 功能可以查看调用关系，对其中的地址和函数进行查询找到标签，然后使用<code>customize account map</code>功能，将其替换为自定义标签，可以提高调用关系的可读性。</p>
+<p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220320222843697.png" alt="image-20220320222843697"></p>
+<p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220320222945110.png" alt="image-20220320222945110"></p>
+<p>自定义后的标签为：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;0x0000000000000000000000000000000000000000&quot;</span>: <span class="string">&quot;Null Address: 0x000…000&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;0x8efab89b497b887cdaa2fb08ff71e4b3827774b2&quot;</span>: <span class="string">&quot;Visor Finance Exploiter&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;0xf938424f7210f31df2aee3011291b658f872e91e&quot;</span>: <span class="string">&quot;Visor Finance: VISR Token&quot;</span>,</span><br><span class="line">  	<span class="attr">&quot;0xc9f27a50f82571c1c8423a42970613b8dbda14ef&quot;</span>: <span class="string">&quot;Visor Finance RewardsHypervisor&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;0x3a84ad5d16adbe566baa6b3dafe39db3d5e261e5&quot;</span>: <span class="string">&quot;vVISR&quot;</span>,</span><br><span class="line"> 		<span class="attr">&quot;0x10c509aa9ab291c76c45414e7cdbd375e1d5ace8&quot;</span>: <span class="string">&quot;Exploit contract&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>替换标签后的调用关系图为：</p>
+<p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220320223428363.png" alt="image-20220320223428363"></p>
+<p>攻击步骤：</p>
+<ol>
+<li>攻击合约的<code>0x4a0b0c38</code>匿名函数调用了<code>Visor Finance RewardsHypervisor</code>合约中的<code>deposit</code>函数，把攻击合约的地址和攻击者的地址作为参数传入；</li>
+<li>在调用<code>deposit</code>函数后，又回调了攻击合约的<code>owner，dekegatedTransferERC20</code>函数；</li>
+<li>在<code>dekegatedTransferERC20</code>函数中重入到了<code>Visor Finance RewardsHypervisor</code>合约并且调用了<code>deposit</code>函数.</li>
+</ol>
+<p>在清楚了攻击流程之后可以推测出<code>RewardsHypervisor </code>合约的 <strong>deposit</strong> 函数内存在<strong>任意外部调用漏洞</strong>。</p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>查看<code>RewardsHypervisor</code> 合约的开源代码：</p>
+<p><a target="_blank" rel="noopener" href="https://etherscan.io/address/0xc9f27a50f82571c1c8423a42970613b8dbda14ef/advanced#code">https://etherscan.io/address/0xc9f27a50f82571c1c8423a42970613b8dbda14ef/advanced#code</a></p>
+<p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220321080927216.png" alt="image-20220321080927216"></p>
+<p>这段代码的逻辑是存入一定数量的<code>visr</code>就会mint出一定数量的<code>vvsir</code>给用户，<code>vvsir</code>为流动性代币，且函数 <code>deposit</code>为 external，可以被外部调用。</p>
+<p>代码分析：</p>
+<ol>
+<li><p>参数<code>visrDeposit</code>为声明存入的<code>Visr</code>的数量；参数<code>from</code>为 visr 来源地址；参数<code>to</code>为 接受 vvsir 的地址；</p>
+</li>
+<li><p>返回值<code>share</code>为 <strong>mint</strong> 出的 vvsir 数量；</p>
+</li>
+<li><p>46-48行判断：存入的 <code>Visr</code>数量必须大于0，且不能讲 mint 的流动性代币发送到 0 地址或者此合约（Visor Finance RewardsHypervisor）的地址；</p>
+</li>
+<li><p>51-54行：如果代币<code>vvisr</code>代币的总供应量不为 0， 那么计算此合约中的 <code>visr</code>的余额（这个合约本身持有<code>visr</code>代币），根据比例计算出需要 <strong>mint</strong> 出的 <code>vvsir</code>的数量，53行为需要 <strong>mint</strong> 的 <code>vvsir</code>的数量<code>share = (visrDeposit / visrBalance) * vvisr总量</code>；</p>
+<p><code>mul(x,y) = x * y, div(x, y) = x / y</code></p>
+<p><code>share.mul(a) = share * a, share.div(a) = share / a</code></p>
+</li>
+<li><p>56-61行：判断发送<code>visr</code>的地址是否为合约地址，如果是合约地址，则检查 <strong>msg.sender</strong> 是不是合约的 <strong>owner</strong>，然后要求这个合约实现 <code>IVsior</code>接口，调用<code>from</code> 的<code>delegatedTransferERC20</code>函数，从<code>from</code>地址向当前合约地址发送<code>visrDeposit</code>数量的 visr。</p>
+<p>由于对 <strong>from</strong> 未作出任何限定，所以 <strong>from</strong> 可以是任何合约。攻击者只需要定义一个<code>delegatedTransferERC20</code>函数就可以绕过充值直接 <strong>mint</strong>。</p>
+</li>
+<li><p>如果 <strong>from</strong> 不是合约地址，就调用 <code>visr.safeTransferFrom</code>函数，由于传入的 <strong>from</strong> 参数和 <strong>to</strong> 参数可控，意味着可以用别人授权给 <strong>RewardsHypervisor</strong> 合约的 <strong>visr</strong> 充值进去，再 <strong>mint vvisr</strong> 给自己。</p>
+</li>
+<li><p>转入<strong>vvisr</strong> 以后可以调用 <code>withdraw</code>函数将其转换成 <strong>visr</strong>，然后在市场上售卖完成变现。</p>
+<p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220321132601411.png" alt="image-20220321132601411"></p>
+</li>
+</ol>
+<p> <code>IVsior</code>接口说明：</p>
+<p><img src="/image/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/image-20220321113438989.png" alt="image-20220321113438989"></p>
+<p> <code>IVsior</code>接口就是要求合约转账，这个函数的主要问题在于56-59行中，若传入的地址是合约，那么检测传入 <code>visr</code>的合约地址的 <strong>owner</strong> 是 <strong>msg.sender</strong> ，然后调用 <strong>from</strong> 的 <code>delegatedTransferERC20</code>函数，本意是检测 <strong>msg.sender</strong> 的授权转账。</p>
+<ul>
+<li><p><strong>问题 1:</strong></p>
+<p>因为 <strong>from</strong> 可以是自己实现的合约，所以攻击者可以自己实现 <code>delegatedTransferERC20</code>函数，可以不实现转账并且满足<code>require</code>，并且<code>Hypervisior</code>合约本身就有钱，可以根据参数<code>visrDeposit</code>计算出最后 <strong>mint</strong> 出的 <code>vvisr</code>值发送给攻击者。</p>
+</li>
+<li><p><strong>问题 2:</strong></p>
+<p>判断 <strong>from</strong> 不是合约地址时，<code>visr.safeTransferFrom</code>函数，由于传入的 <strong>from</strong> 参数和 <strong>to</strong> 参数可控，意味着可以用别人授权给 <strong>RewardsHypervisor</strong> 合约的 <strong>visr</strong> 充值进去，再 <strong>mint vvisr</strong> 最后发送给攻击者。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Banana69</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://banana69.site/2022/03/25/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/">https://banana69.site/2022/03/25/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Banana69.site" target="_blank">Banana69</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1/">智能合约审计</a></div><div class="post_share"></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/cat.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Banana69</div><div class="author-info__description">菜鸡的博客</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Banannna69"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Banannna69" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:junminn@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90"><span class="toc-text">攻击分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="toc-text">漏洞分析</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/03/25/%E4%BB%BB%E6%84%8F%E5%A4%96%E9%83%A8%E8%B0%83%E7%94%A8%E7%B1%BB%E5%9E%8B%E6%BC%8F%E6%B4%9E/" title="从 Visor.finance 事件学习任意外部调用漏洞">从 Visor.finance 事件学习任意外部调用漏洞</a><time datetime="2022-03-25T04:42:54.000Z" title="发表于 2022-03-25 12:42:54">2022-03-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/10/17/Solidity%20Function%20Selector/" title="Solidity函数选择器与参数编码">Solidity函数选择器与参数编码</a><time datetime="2021-10-17T07:21:46.000Z" title="发表于 2021-10-17 15:21:46">2021-10-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/10/16/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化及POP链构造">PHP反序列化及POP链构造</a><time datetime="2021-10-16T01:24:02.000Z" title="发表于 2021-10-16 09:24:02">2021-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/10/15/%E5%90%88%E7%BA%A6%E8%B0%83%E7%94%A8/" title="Solididy合约调用">Solididy合约调用</a><time datetime="2021-10-15T01:24:02.000Z" title="发表于 2021-10-15 09:24:02">2021-10-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/10/09/tx-origin%E5%BC%95%E5%8F%91%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/" title="tx.origin 引发的安全问题">tx.origin 引发的安全问题</a><time datetime="2021-10-09T04:42:54.000Z" title="发表于 2021-10-09 12:42:54">2021-10-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Banana69</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
