@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>The Dao 事件分析 | Banana69</title><meta name="keywords" content="智能合约"><meta name="author" content="Banana69"><meta name="copyright" content="Banana69"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Race To Empty 攻击简介Race To Empty 就是使用多次且快速调用代码的方式使被攻击者账户中的资产为空的一种攻击方式，利用 fallback()函数使受害者递归调用转账函数，也就是我们现在说的重入攻击  举个例子来理解： function withdrawBalance() &amp;#123;    amountToWithdraw &#x3D; userBalances[msg.sender">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Dao 事件分析">
+<meta property="og:url" content="https://banana69.site/2022/07/29/RaceToEmpty%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Banana69">
+<meta property="og:description" content="Race To Empty 攻击简介Race To Empty 就是使用多次且快速调用代码的方式使被攻击者账户中的资产为空的一种攻击方式，利用 fallback()函数使受害者递归调用转账函数，也就是我们现在说的重入攻击  举个例子来理解： function withdrawBalance() &amp;#123;    amountToWithdraw &#x3D; userBalances[msg.sender">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2022-07-29T08:55:14.000Z">
+<meta property="article:modified_time" content="2022-07-29T10:30:55.208Z">
+<meta property="article:author" content="Banana69">
+<meta property="article:tag" content="智能合约">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://banana69.site/2022/07/29/RaceToEmpty%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'The Dao 事件分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-29 18:30:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Banana69" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/cat.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Banana69</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">The Dao 事件分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-07-29T08:55:14.000Z" title="发表于 2022-07-29 16:55:14">2022-07-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">989</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="The Dao 事件分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h3 id="Race-To-Empty-攻击简介"><a href="#Race-To-Empty-攻击简介" class="headerlink" title="Race To Empty 攻击简介"></a>Race To Empty 攻击简介</h3><p>Race To Empty 就是使用多次且快速调用代码的方式使被攻击者账户中的资产为空的一种攻击方式，利用 <code>fallback()</code>函数使受害者递归调用转账函数，也就是我们现在说的重入攻击 </p>
+<p>举个例子来理解：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function withdrawBalance() &#123;  </span><br><span class="line">  amountToWithdraw = userBalances[msg.sender];</span><br><span class="line">  if (!(msg.sender.call.value(amountToWithdraw)())) &#123; </span><br><span class="line">  	throw;</span><br><span class="line">  &#125;</span><br><span class="line">  userBalances[msg.sender] = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面是一个普通的取款函数，在被调用时会执行以下操作</p>
+<ol>
+<li>获取记录的余额<code>userBalances[msg.sender]</code></li>
+<li>将获取到的余额发送，若发送不成功则抛出异常</li>
+<li>将 <code>msg.sender</code>的余额置为 0</li>
+</ol>
+<p>以上操作看起来没有任何问题，实际上在智能合约上执行时，转账接收者在合约中可以写一段恶意代码，比如像这样的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function () &#123;  </span><br><span class="line">  // To be called by a vulnerable contract with a withdraw function.</span><br><span class="line">  // This will double withdraw.</span><br><span class="line"></span><br><span class="line">  vulnerableContract v;</span><br><span class="line">  uint times;</span><br><span class="line">  if (times == 0 &amp;&amp; attackModeIsOn) &#123;</span><br><span class="line">    times = 1;</span><br><span class="line">    v.withdrawBalance();</span><br><span class="line"></span><br><span class="line">   &#125; else &#123; times = 0; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在每次调用<code>msg.sender.call.value()</code>就会调用默认函数，而默认函数又会去调用 <code>withdrawBalance()</code>，这样就会造成递归调用，函数调用栈如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vulnerableContract.withdrawBalance run 1</span><br><span class="line">	attacker default function run 1</span><br><span class="line">		vulnerableContract.withdrawBalance run 2</span><br><span class="line">			attacker default function run 2</span><br></pre></td></tr></table></figure>
+
+<p>当第一次调用<code>userBalances[msg.sender]</code>会正常执行下面的转账操作，当第二次调用时还为执行置 0 操作，就会不断的向攻击者转账，耗尽被攻击者的余额。</p>
+<h3 id="The-Dao-事件中的重入攻击"><a href="#The-Dao-事件中的重入攻击" class="headerlink" title="The Dao 事件中的重入攻击"></a>The Dao 事件中的重入攻击</h3><h5 id="fallback函数"><a href="#fallback函数" class="headerlink" title="fallback函数"></a>fallback函数</h5><p>fallback 函数又被称为回退函数，每个合约具有一个没有名字的函数，当合约被调用时，如果无法匹配到有效的函数，就会默认调用 <code>fallback</code>函数；当合约接收到 ether 时 ，会退函数也会被执行。</p>
+<h5 id="攻击流程"><a href="#攻击流程" class="headerlink" title="攻击流程"></a>攻击流程</h5><p>DAO被攻击成功主要有俩个原因：</p>
+<ol>
+<li>DAO余额扣除与转账顺序有误，应该先进行扣除费用再进行转账；</li>
+<li>未知代码被无限制使用。</li>
+</ol>
+<p>攻击者在自己的合约中，利用 fallback 函数通过递归初查 DAO 的splitDAO 函数的多次调用。</p>
+<p>源码分析：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Modifier that allows only shareholders to vote and create new proposals</span><br><span class="line">    modifier onlyTokenholders &#123;</span><br><span class="line">        if (balanceOf(msg.sender) == 0) throw;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码对 <code>msg.sender</code>持有的 dao token 进行判断，当余额为 0 时会抛出异常。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Move ether and assign new Tokens</span><br><span class="line">uint fundsToBeMoved =(balances[msg.sender] * p.splitData[0].splitBalance) / p.splitData[0].totalSupply;</span><br><span class="line">if (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false)</span><br><span class="line">	throw;</span><br></pre></td></tr></table></figure>
+
+<p>在 DAO.sol 中的 splitDao可以找到向 childDAo 转账的代码，它会将代币从 the parent DAO 转移到 the child DAO中。攻击者就是利用这条语句来获取更多的代币并转移到 child DAO 中。</p>
+<p><strong>fundsToBeMoved</strong> 的作用是决定了要转移的代币的数量，因为攻击者每次调用时 <code>p.splitData[0]</code>都是一样的，并且<code>p.splitData[0].totalSupply</code>与<code>balances[msg.sender]</code>的值由于函数顺序问题没有被更新。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Burn DAO Tokens</span><br><span class="line">Transfer(msg.sender, 0, balances[msg.sender]);</span><br><span class="line">withdrawRewardFor(msg.sender); // be nice, and get his rewards</span><br><span class="line">totalSupply -= balances[msg.sender];</span><br><span class="line">balances[msg.sender] = 0;</span><br><span class="line">paidOut[msg.sender] = 0;</span><br><span class="line">return true;</span><br></pre></td></tr></table></figure>
+
+<p>所以要想实现不断的转账操作，就必须依靠其他方法，根据上面的代码，为msg.sender记录的dao币余额归零、扣减 dao token 总量totalSupply等等都发生在将token转入msg.sender之后。下面看<code>withdrawRewardFor)()</code>函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function withdrawRewardFor(address _account) noEther internal returns (bool _success) &#123;</span><br><span class="line">	if ((balanceOf(_account) * rewardAccount.accumulatedInput()) / totalSupply &lt; paidOut[_account])</span><br><span class="line">	throw;</span><br><span class="line">	uint reward =(balanceOf(_account) * rewardAccount.accumulatedInput()) / totalSupply - paidOut[_account];</span><br><span class="line">	if (!rewardAccount.payOut(_account, reward))</span><br><span class="line">		throw;</span><br><span class="line">  paidOut[_account] += reward;</span><br><span class="line">  return true;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>paidOut[_account] += reward</code>在问题代码里面放在payOut函数调用之后，再看payOut函数调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function payOut(address _recipient, uint _amount) returns (bool) &#123;</span><br><span class="line">        if (msg.sender != owner || msg.value &gt; 0 || (payOwnerOnly &amp;&amp; _recipient != owner))</span><br><span class="line">            throw;</span><br><span class="line"></span><br><span class="line">        if (_recipient.call.value(_amount)()) &#123;    //注意这一行</span><br><span class="line"></span><br><span class="line">            PayOut(_recipient, _amount);</span><br><span class="line">            return true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>对_recipient发出call调用，转账_amount个Wei，call调用默认会使用当前剩余的所有gas。</p>
+<p>以上就是 DAO 事件的代码分析。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Banana69</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://banana69.site/2022/07/29/RaceToEmpty%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/">https://banana69.site/2022/07/29/RaceToEmpty%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Banana69.site" target="_blank">Banana69</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">智能合约</a></div><div class="post_share"></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/cat.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Banana69</div><div class="author-info__description">菜鸡的博客</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Banannna69"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Banannna69" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:junminn@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Race-To-Empty-%E6%94%BB%E5%87%BB%E7%AE%80%E4%BB%8B"><span class="toc-text">Race To Empty 攻击简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Dao-%E4%BA%8B%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%87%8D%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-text">The Dao 事件中的重入攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#fallback%E5%87%BD%E6%95%B0"><span class="toc-text">fallback函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B"><span class="toc-text">攻击流程</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/22/solidity%E8%BF%9B%E9%98%B6/" title="Solididy进阶">Solididy进阶</a><time datetime="2022-10-22T01:24:02.000Z" title="发表于 2022-10-22 09:24:02">2022-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/" title="solidity编写内联汇编">solidity编写内联汇编</a><time datetime="2022-08-23T08:51:44.000Z" title="发表于 2022-08-23 16:51:44">2022-08-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/19/Chain-Flag%E8%AE%B0%E5%BD%95/" title="Chain Flag记录">Chain Flag记录</a><time datetime="2022-08-19T09:38:23.000Z" title="发表于 2022-08-19 17:38:23">2022-08-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/29/RaceToEmpty%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/" title="The Dao 事件分析">The Dao 事件分析</a><time datetime="2022-07-29T08:55:14.000Z" title="发表于 2022-07-29 16:55:14">2022-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/28/evm-puzzles/" title="Evm-puzzles题解">Evm-puzzles题解</a><time datetime="2022-07-27T16:00:00.000Z" title="发表于 2022-07-28 00:00:00">2022-07-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Banana69</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

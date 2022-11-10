@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>solidity编写内联汇编 | Banana69</title><meta name="keywords" content="solidity 智能合约"><meta name="author" content="Banana69"><meta name="copyright" content="Banana69"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="0x01 介绍汇编（也称为汇编语言）是指可使用汇编器转换为机器代码的低级编程语言。 汇编语言与物理机或虚拟机绑定，因为它们实现了指令集。 一条指令告诉CPU执行一些基本任务。 EVM是一个基于栈的虚拟机（stack machine），栈这种数据结构只允许两个操作：压入（PUSH）或弹出（POP）数据。 最后压入的数据位于栈顶，因此将被第一个弹出，这被称为后进先出 （LIFO：Last In, Fi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="solidity编写内联汇编">
+<meta property="og:url" content="https://banana69.site/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/index.html">
+<meta property="og:site_name" content="Banana69">
+<meta property="og:description" content="0x01 介绍汇编（也称为汇编语言）是指可使用汇编器转换为机器代码的低级编程语言。 汇编语言与物理机或虚拟机绑定，因为它们实现了指令集。 一条指令告诉CPU执行一些基本任务。 EVM是一个基于栈的虚拟机（stack machine），栈这种数据结构只允许两个操作：压入（PUSH）或弹出（POP）数据。 最后压入的数据位于栈顶，因此将被第一个弹出，这被称为后进先出 （LIFO：Last In, Fi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2022-08-23T08:51:44.000Z">
+<meta property="article:modified_time" content="2022-08-24T08:36:32.881Z">
+<meta property="article:author" content="Banana69">
+<meta property="article:tag" content="solidity 智能合约">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://banana69.site/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'solidity编写内联汇编',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-08-24 16:36:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Banana69" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/cat.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Banana69</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">solidity编写内联汇编</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-08-23T08:51:44.000Z" title="发表于 2022-08-23 16:51:44">2022-08-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="solidity编写内联汇编"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h3 id="0x01-介绍"><a href="#0x01-介绍" class="headerlink" title="0x01 介绍"></a>0x01 介绍</h3><p>汇编（也称为<em>汇编语言</em>）是指可使用汇编器转换为机器代码的低级编程语言。 汇编语言与物理机或虚拟机绑定，因为它们实现了指令集。 一条指令告诉CPU执行一些基本任务。</p>
+<p>EVM是一个基于栈的虚拟机（stack machine），栈这种数据结构只允许两个操作：压入（PUSH）或弹出（POP）数据。 最后压入的数据位于栈顶，因此将被第一个弹出，这被称为后进先出 （LIFO：Last In, First Out）。栈虚拟机将所有的操作数保存在栈上，其中所有操作数都存储在栈中。 它仍然具有PC（程序计数器）和SP（堆栈指针）的存储器和寄存器，但是所有内容都存储在栈中。</p>
+<p>至于为什么要在solidity中使用内联汇编，有以下几个优点：</p>
+<ul>
+<li><p><strong>细粒度控制</strong></p>
+<p>可以使用操作码直接与EVM进行交互，这使对智能合约要执行的操作可以进行更精细的控制。</p>
+<p>汇编代码还提供了更多仅靠Solidity不能实现的逻辑权限，例如指向特定的内存插槽，当编写合约库文件时，细粒度控制有很大的作用。</p>
+</li>
+<li><p><strong>减少Gas消耗</strong></p>
+<p>在solidity中使用汇编代码还可以节省Gas，如以下例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function addAssembly(uint x, uint y) public pure returns (uint) &#123;</span><br><span class="line">     assembly &#123;</span><br><span class="line">         let result := add(x, y)</span><br><span class="line">         mstore(0x0, result)</span><br><span class="line">         return(0x0, 32)</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> function addSolidity(uint x, uint y) public pure returns (uint) &#123;</span><br><span class="line">     return x + y;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>汇编消耗的Gas：</p>
+<p><img src="solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96.assets/image-20220823170713555.png" alt="image-20220823170713555"></p>
+<p>solidity消耗的Gas：</p>
+<p><img src="solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96.assets/image-20220823170734917.png" alt="image-20220823170734917"></p>
+<p>可以看到在简单的加操作中汇编代码要比solidity节省Gas，在更为复杂的合约中节约的Gas也会更多。</p>
+</li>
+<li><p>从 string 中读取数据</p>
+<p>使用内联汇编可以在单个操作中从数据<code>string</code>和<code>bytes</code>类型中读取整个字节（256 位）。Solidity-stringutils 通过对被比较的两个字符串的 32 字节块进行减法来使用它进行非常快速的字符串比较。如果没有汇编，必须逐字节执行此操作。</p>
+</li>
+<li><p>一些操作没有在 Solidity 中公开。例如，sha3 操作码采用内存中的一个字节范围进行哈希计算，而同名的 Solidity 函数采用一个字符串。因此，散列字符串的一部分将需要昂贵的字符串复制操作。使用内联汇编，就可以传入一个字符串并仅对需要的位进行哈希处理。</p>
+</li>
+<li><p>Solidity 不支持从返回可变长度类型（如动态数组、字节或字符串）的声明为external 的函数获取返回值，但如果知道预期的长度，则可以使用内联汇编调用它们。</p>
+</li>
+</ul>
+<h3 id="0x02-基本语法"><a href="#0x02-基本语法" class="headerlink" title="0x02 基本语法"></a>0x02 基本语法</h3><p>solidity的汇编语言更接近 EVM，其定义了俩中汇编语言的实现方式：</p>
+<ul>
+<li>**内联汇编（Inline Assembly )**：可以在内部Solidity源代码中使用。：</li>
+<li><strong>独立汇编（Standalone Assembly</strong>：可以直接使用，无需Solidity。（尚未实现）</li>
+</ul>
+<p>在solidity中使用<code>assembly&#123;&#125;</code>来嵌入汇编代码段，这种形式的汇编被称为内联汇编，在<code>assembly</code>块内的代码开发语言被称为Yul。</p>
+<p>需要注意的是，汇编代码块之间是不能进行通信的，即一个汇编代码块里定义的变量在另一个汇编代码块中不能被访问。（不同的内联汇编块不共享任何名称空间，即不可能调用Yul函数或访问在其他内联汇编块中定义的Yul变量）如以下代码就会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">assembly &#123; </span><br><span class="line">    let x := 2</span><br><span class="line">&#125;    </span><br><span class="line">assembly &#123;</span><br><span class="line">    let y := x          // Error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例：计算两数之和</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function Add(uint x,uint y) public pure returns(uint) &#123;</span><br><span class="line">	assembly&#123;</span><br><span class="line">    let result := add(x,y) //创建一个新的变量result 使用add操作码计算x+y,将结果赋值给result</span><br><span class="line">    mstore(0x0,result) 		 //从内存中保存结果</span><br><span class="line">    return(0x0,32)         //从内存地址0x0返回32字节</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  在Yul中使用<code>let</code>关键字定义变量，使用 <code>:=</code>操作符赋值给变量，如果没有使用<code>:=</code>那么会将变量的值自动初始化为0。</p>
+<h5 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h5><p>在Solidity汇编中字面量的写法与Solidity一致。不过，字符串字面量最多可以包含32个字符。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">assembly &#123; </span><br><span class="line"> let a := 0x123             // 16进制</span><br><span class="line"> let b := 42                // 10进制</span><br><span class="line"> let c := &quot;hello world&quot;     // 字符串</span><br><span class="line"></span><br><span class="line"> let d := &quot;very long string more than 32 bytes&quot; // 超长字符串，出错！</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// TypeError: String literal too long (35 &lt; 32)</span><br><span class="line">// let d := &quot;really long string more than 32 bytes&quot;</span><br><span class="line">// </span><br></pre></td></tr></table></figure>
+
+<h5 id="块和作用域"><a href="#块和作用域" class="headerlink" title="块和作用域"></a>块和作用域</h5><p>在Solidity汇编中，变量的作用范围遵循标准规则。一个块的范围使用由一对大括号标识。变量仅在定义所在块的范围内有效，当块执行完时，块中的变量也会被销毁。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">assembly &#123; </span><br><span class="line"> let x := 3          // x在各处可见</span><br><span class="line"> // Scope 1 </span><br><span class="line"> &#123; </span><br><span class="line"> let y := x     // ok </span><br><span class="line"> &#125;  // 到此处会销毁y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="变量访问"><a href="#变量访问" class="headerlink" title="变量访问"></a>变量访问</h5><p>在Solidity汇编中，只需要<strong>使用变量名</strong>就可以访问局部变量， 无论该变量是定义在汇编块中，还是汇编块之外（Solidity代码中），不过变量必须是函数的局部变量</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function assembly_local_var_access() public pure &#123; </span><br><span class="line"> uint b = 5; </span><br><span class="line"> </span><br><span class="line"> assembly &#123;                // defined inside  an assembly block</span><br><span class="line">     let x := add(2, 3) </span><br><span class="line">     let y := 10 </span><br><span class="line">     z := add(x, y)</span><br><span class="line"> &#125; </span><br><span class="line"> </span><br><span class="line"> assembly &#123;               // defined outside an assembly block</span><br><span class="line">     let x := add(2, 3)</span><br><span class="line">     let y := mul(x, b)</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="For-循环"><a href="#For-循环" class="headerlink" title="For 循环"></a>For 循环</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//solitidy中的for循环</span><br><span class="line">function for_loop_solidity(uint n, uint value) public pure returns(uint) &#123;       </span><br><span class="line">    for ( uint i = 0; i &lt; n; i++ ) &#123;</span><br><span class="line">        value = 2 * value;</span><br><span class="line">    &#125;</span><br><span class="line">    return value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//汇编代码</span><br><span class="line">function for_loop_assembly(uint n, uint value) public pure returns (uint) &#123;</span><br><span class="line">     assembly &#123;</span><br><span class="line">     //初始化 let i:=0,执行条件lt(i,n),必须是函数风格表达式，迭代后续步骤add(i,1)</span><br><span class="line">       for &#123; let i := 0 &#125; lt(i, n) &#123; i := add(i, 1) &#125; &#123; </span><br><span class="line">           value := mul(2, value) </span><br><span class="line">       &#125;   </span><br><span class="line">       mstore(0x0, value)</span><br><span class="line">       return(0x0, 32)   </span><br><span class="line">   &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">assembly &#123;</span><br><span class="line">    let x := 34   </span><br><span class="line">    switch lt(x, 30)</span><br><span class="line">    case true &#123;</span><br><span class="line">        // do something</span><br><span class="line">    &#125;</span><br><span class="line">    case false &#123;</span><br><span class="line">        // do something els</span><br><span class="line">    &#125;</span><br><span class="line">    default &#123;</span><br><span class="line">        // 不允许</span><br><span class="line">    &#125;           </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分支列表不需要大括号，但是分支的代码块需要大括号；</li>
+<li>所有的分支条件值必须：1）具有相同的类型 2）具有不同的值；</li>
+<li>如果分支条件已经涵盖所有可能的值，那么不允许再出现default条件。</li>
+</ul>
+<h5 id="汇编函数"><a href="#汇编函数" class="headerlink" title="汇编函数"></a>汇编函数</h5><p>在 Solidity内联汇编中定义底层函数，他们可以包含自己的逻辑，调用这些自定义的函数和使用内置的操作码一样。</p>
+<p>下面的汇编函数用来分配指定长度<code>length</code>的内存，并返回内存指针<code>pos</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">assembly &#123;</span><br><span class="line">    function allocate(length) -&gt; pos &#123;</span><br><span class="line">        pos := mload(0x40)</span><br><span class="line">        mstore(0x40, add(pos, length))</span><br><span class="line">    &#125;</span><br><span class="line">    let free_memory_pointer := allocate(64)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>汇编函数运行如下：</p>
+<ol>
+<li>从栈顶提取参数</li>
+<li>将结果压入栈</li>
+</ol>
+<p>和Solidity函数不同，不需要指定汇编函数的可见性，例如<code>public</code>或<code>private</code>， 因为汇编函数仅在定义所在的汇编代码块内有效。</p>
+<p>汇编变量遵循相同作用域规则。最新的 Solidity 文档对此给出了明确的解释：<strong>Yul 允许定义函数。它们不应与 Solidity 中的函数混淆，因为它们从来不是合约外部接口的一部分，并且独立于 Solidity 函数的命名空间。</strong></p>
+<p>返回值用<code>-&gt;</code> 指定会返回一个值</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">assembly &#123;</span><br><span class="line">    function my_assembly_function(param1, param2) -&gt; my_result &#123;</span><br><span class="line">        // param2 - (4 * param1)</span><br><span class="line">        my_result := sub(param2, mul(4, param1))</span><br><span class="line">    &#125;</span><br><span class="line">    let some_value = my_assembly_function(4, 9)  // 4 - (9 * 4) = 32</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不需要显式返回语句。为了返回一个值，只需在最终语句中将其分配给返回变量</p>
+<blockquote>
+<p>EVM 包含了 <code>return</code> 的内置操作代码。如果在汇编函数中编写了<code>return</code> 操作码，它将停止完全执行当前上下文（内部消息调用），而不仅仅是当前汇编函数。</p>
+</blockquote>
+<p>使用<code>leave</code> 关键字可以放置在汇编函数体的任意位置，以停止其执行流并退出它。它的工作原理与空返回语句完全相同，有一个例外：函数将返回上次复制的变量给返回变量，<font color=red><code>leave</code> 关键字只能在函数内使用</font>。</p>
+<h3 id="0x03-高级汇编"><a href="#0x03-高级汇编" class="headerlink" title="0x03 高级汇编"></a>0x03 高级汇编</h3><p>EVM 操作码可以分为以下几类：</p>
+<ul>
+<li>算数和比较操作</li>
+<li>位操作</li>
+<li>密码学计算，目前仅包含<code>keccak256</code></li>
+<li>环境操作码，主要指与区块链相关的全局信息，例如：<code>blockhash</code>或<code>coinbase</code></li>
+<li>存储、内存和栈操作</li>
+<li>交易与合约调用操作</li>
+<li>停机操作</li>
+<li>日志操作</li>
+</ul>
+<h5 id="多个赋值"><a href="#多个赋值" class="headerlink" title="多个赋值"></a>多个赋值</h5><p>如果调用一个函数反复多个值，可以将他们赋值给元组(tuple)。前面我们已经可以在汇编中创建函数，这些函数可以返回多个值。使用汇编函数可以一次分配多个值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">assembly &#123;</span><br><span class="line">      function f() -&gt; a, b &#123;&#125;</span><br><span class="line">      let c, d := f()           </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="栈平衡（Stack-balancing）"><a href="#栈平衡（Stack-balancing）" class="headerlink" title="栈平衡（Stack balancing）"></a>栈平衡（Stack balancing）</h5><p>在每个 <code>assembly &#123; ... &#125;</code> 块的末尾，必须平衡堆栈（除非另有要求）。 否则，编译器将生成警告。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Banana69</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://banana69.site/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/">https://banana69.site/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Banana69.site" target="_blank">Banana69</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/solidity-%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">solidity 智能合约</a></div><div class="post_share"></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/cat.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Banana69</div><div class="author-info__description">菜鸡的博客</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Banannna69"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Banannna69" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:junminn@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-%E4%BB%8B%E7%BB%8D"><span class="toc-text">0x01 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">0x02 基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">字面量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9D%97%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">块和作用域</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E8%AE%BF%E9%97%AE"><span class="toc-text">变量访问</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#For-%E5%BE%AA%E7%8E%AF"><span class="toc-text">For 循环</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#switch"><span class="toc-text">switch</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B1%87%E7%BC%96%E5%87%BD%E6%95%B0"><span class="toc-text">汇编函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-%E9%AB%98%E7%BA%A7%E6%B1%87%E7%BC%96"><span class="toc-text">0x03 高级汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E8%B5%8B%E5%80%BC"><span class="toc-text">多个赋值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%88%E5%B9%B3%E8%A1%A1%EF%BC%88Stack-balancing%EF%BC%89"><span class="toc-text">栈平衡（Stack balancing）</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/22/solidity%E8%BF%9B%E9%98%B6/" title="Solididy进阶">Solididy进阶</a><time datetime="2022-10-22T01:24:02.000Z" title="发表于 2022-10-22 09:24:02">2022-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/" title="solidity编写内联汇编">solidity编写内联汇编</a><time datetime="2022-08-23T08:51:44.000Z" title="发表于 2022-08-23 16:51:44">2022-08-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/19/Chain-Flag%E8%AE%B0%E5%BD%95/" title="Chain Flag记录">Chain Flag记录</a><time datetime="2022-08-19T09:38:23.000Z" title="发表于 2022-08-19 17:38:23">2022-08-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/29/RaceToEmpty%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/" title="The Dao 事件分析">The Dao 事件分析</a><time datetime="2022-07-29T08:55:14.000Z" title="发表于 2022-07-29 16:55:14">2022-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/28/evm-puzzles/" title="Evm-puzzles题解">Evm-puzzles题解</a><time datetime="2022-07-27T16:00:00.000Z" title="发表于 2022-07-28 00:00:00">2022-07-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Banana69</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
