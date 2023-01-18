@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>抢先交易 Front-running | Banana69</title><meta name="keywords" content="智能合约"><meta name="author" content="Banana69"><meta name="copyright" content="Banana69"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="传统抢跑抢跑最初诞生于传统金融市场，是一场单纯为了利益的竞赛。在金融市场中，信息差催生了金融中介机构，他们可以通过最先了解某些行业信息并最先做出反应从而实现获利。这些攻击主要发生在股票市场交易和早期的域名注册。 链上抢跑链上抢跑指的是搜索者或矿工通过调高gas或其他方法将自己的交易安插在其他交易之前，来攫取价值。在区块链中，矿工可以通过打包、排除或重新排序他们产生的区块中的交易来获得一定的利润，而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="抢先交易 Front-running">
+<meta property="og:url" content="https://banana69.site/2023/01/17/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93/index.html">
+<meta property="og:site_name" content="Banana69">
+<meta property="og:description" content="传统抢跑抢跑最初诞生于传统金融市场，是一场单纯为了利益的竞赛。在金融市场中，信息差催生了金融中介机构，他们可以通过最先了解某些行业信息并最先做出反应从而实现获利。这些攻击主要发生在股票市场交易和早期的域名注册。 链上抢跑链上抢跑指的是搜索者或矿工通过调高gas或其他方法将自己的交易安插在其他交易之前，来攫取价值。在区块链中，矿工可以通过打包、排除或重新排序他们产生的区块中的交易来获得一定的利润，而">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2023-01-17T14:12:01.000Z">
+<meta property="article:modified_time" content="2023-01-17T16:55:00.689Z">
+<meta property="article:author" content="Banana69">
+<meta property="article:tag" content="智能合约">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://banana69.site/2023/01/17/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '抢先交易 Front-running',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-18 00:55:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Banana69" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/cat.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Banana69</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">抢先交易 Front-running</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2023-01-17T14:12:01.000Z" title="发表于 2023-01-17 22:12:01">2023-01-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E5%8C%BA%E5%9D%97%E9%93%BE/">智能合约 区块链</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="抢先交易 Front-running"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h3 id="传统抢跑"><a href="#传统抢跑" class="headerlink" title="传统抢跑"></a>传统抢跑</h3><p>抢跑最初诞生于传统金融市场，是一场单纯为了利益的竞赛。在金融市场中，信息差催生了金融中介机构，他们可以通过最先了解某些行业信息并最先做出反应从而实现获利。这些攻击主要发生在股票市场交易和早期的域名注册。</p>
+<h3 id="链上抢跑"><a href="#链上抢跑" class="headerlink" title="链上抢跑"></a>链上抢跑</h3><p>链上抢跑指的是搜索者或矿工通过调高<code>gas</code>或其他方法将自己的交易安插在其他交易之前，来攫取价值。在区块链中，矿工可以通过打包、排除或重新排序他们产生的区块中的交易来获得一定的利润，而<code>MEV</code>是衡量这种利润的指标。</p>
+<p>在用户的交易被矿工打包进以太坊区块链之前，大部分交易会汇集到Mempool（交易内存池）中，矿工在这里寻找费用高的交易优先打包出块，实现利益最大化。通常来说，gas price越高的交易，越容易被打包。简单来说，Front-Running 是指在一笔正常交易等待打包的过程中，抢跑机器人通过设置更高 Gas 费用抢先完成攻击交易，以此攫取用户利益的攻击行为。而 Mempool 是一组已经广播到网络中并等待被打包进区块的以太坊交易，它是 Front-Running 可以实施的前提，抢跑机器人通过不断扫描 Mempool 中的交易，来分析发现可攻击的目标。</p>
+<blockquote>
+<p>MEV: 最大可提取价值</p>
+</blockquote>
+<h3 id="链上抢跑实践"><a href="#链上抢跑实践" class="headerlink" title="链上抢跑实践"></a>链上抢跑实践</h3><ul>
+<li>使用 Foundry 的 anvil 搭建本地测试链</li>
+<li>使用 etherJs 脚本监听 mempool 并进行抢跑</li>
+<li>使用 remix 部署合约</li>
+</ul>
+<ol>
+<li><p>启动 Foundry 本地测试链</p>
+<p><code>anvil --chain-id 1234 -b 10</code></p>
+<p>Chain id 为 1234 并且在每 10 秒产出一个区块。</p>
+<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117222113559.png" alt="image-20230117222113559"></p>
+<p>测试合约：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity ^0.8.4;</span><br><span class="line"></span><br><span class="line">import &quot;@oppenzeppelin/contracts/token/ERC721/ERC721.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract FreeMint is ERC721 &#123;</span><br><span class="line">    uint256 public totalSupply;</span><br><span class="line"></span><br><span class="line">    constructor() ERC721(&quot;FREE MINT NFT&quot;,&quot;FREEMINT&quot;)&#123;&#125;</span><br><span class="line"></span><br><span class="line">    //铸造函数</span><br><span class="line">    function mint() external &#123;</span><br><span class="line">        _mint(msg.sender, totalSupply);</span><br><span class="line">        totalSupply++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在 remix 中部署合约</p>
+<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117225843870.png" alt="image-20230117225843870"></p>
+</li>
+<li><p>部署 etherJs 抢跑脚本，在该脚本中监听了测试链<code>mempool</code>中的未决交易，筛选出调用了<code>mint()</code>的交易，然后复制它并调高<code>gas</code>进行抢跑。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ethers, utils &#125; <span class="keyword">from</span> <span class="string">&quot;ethers&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> provider = <span class="keyword">new</span> ethers.providers.WebSocketProvider(<span class="string">&quot;http://127.0.0.1:8545&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> network = provider.getNetwork()</span><br><span class="line">network.then(<span class="function"><span class="params">res</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`[<span class="subst">$&#123;(<span class="keyword">new</span> <span class="built_in">Date</span>).toLocaleTimeString()&#125;</span>] 连接到 chain ID <span class="subst">$&#123;res.chainId&#125;</span>`</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建 interface 对象，用于解码交易详情</span></span><br><span class="line"><span class="keyword">const</span> iface = <span class="keyword">new</span> utils.Interface([</span><br><span class="line">    <span class="string">&quot;function mint() external&quot;</span></span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建钱包，用于发送抢跑交易</span></span><br><span class="line"><span class="keyword">const</span> privateKey = <span class="string">&quot;0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6&quot;</span></span><br><span class="line"><span class="keyword">const</span> wallet = <span class="keyword">new</span> ethers.Wallet(privateKey, provider)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> main = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">//监听pending的mint交易，获取交易详情并解码</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;\n. 监听pending交易，获取txHash，并输出交易详情。&quot;</span>)</span><br><span class="line">    provider.on(<span class="string">&quot;pending&quot;</span>, <span class="keyword">async</span> (txHash) =&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> tx = <span class="keyword">await</span> provider.getTransaction(txHash)</span><br><span class="line">        <span class="keyword">if</span> (txHash) &#123;</span><br><span class="line">            <span class="comment">//监听交易池中未打包的交易，过滤 pending.data</span></span><br><span class="line">            <span class="keyword">if</span> (tx.data.indexOf(iface.getSighash(<span class="string">&quot;mint&quot;</span>)) != -<span class="number">1</span> &amp;&amp; tx.from != wallet.address) &#123;</span><br><span class="line">                <span class="comment">//打印txHash</span></span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`\n[<span class="subst">$&#123;(<span class="keyword">new</span> <span class="built_in">Date</span>).toLocaleTimeString()&#125;</span>] 监听 Pending 交易: <span class="subst">$&#123;txHash&#125;</span> \r`</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment">//打印解码的交易详情</span></span><br><span class="line">                <span class="keyword">let</span> parsedTx = iface.parseTransaction(tx)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;pending交易详情解码：&quot;</span>)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`name: <span class="subst">$&#123;parsedTx.name&#125;</span>`</span>)</span><br><span class="line">                <span class="comment">// Input data解码</span></span><br><span class="line">                <span class="comment">// console.log(&quot;raw transaction&quot;)</span></span><br><span class="line">                <span class="comment">// console.log(tx)</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//构建抢跑 tx</span></span><br><span class="line">                <span class="keyword">const</span> txFrontrun = &#123;</span><br><span class="line">                    <span class="attr">to</span>: tx.to,</span><br><span class="line">                    <span class="attr">value</span>: tx.value,</span><br><span class="line">                    <span class="attr">maxPriorityFeePerGas</span>: tx.maxPriorityFeePerGas * <span class="number">2</span>,</span><br><span class="line">                    <span class="attr">maxFeePerGas</span>: tx.maxFeePerGas * <span class="number">2</span>,</span><br><span class="line">                    <span class="attr">gasLimit</span>: tx.gasLimit * <span class="number">2</span>,</span><br><span class="line">                    <span class="attr">data</span>: tx.data</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//发送抢跑交易</span></span><br><span class="line">                <span class="keyword">var</span> txResponse = <span class="keyword">await</span> wallet.sendTransaction(txFrontrun)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`正在 frontrun 交易`</span>)</span><br><span class="line">                <span class="keyword">await</span> txResponse.wait()</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`frontrun 交易成功`</span>)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`交易哈希为：<span class="subst">$&#123;txResponse.hash&#125;</span>`</span>)</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure></li>
+<li><p>调用 mint 函数，进行 NFT 铸造</p>
+<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117233952535.png" alt="image-20230117233952535"></p>
+</li>
+<li><p>脚本监听到交易并进行抢跑，在终端可以看到交易详情，在合约中可以调用<code>ownerOf()</code>函数查看 <code>tokenId</code> 为 1 的持有者是抢跑脚本中的钱包地址，则抢跑成功。</p>
+<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001807115.png" alt="image-20230118001807115"></p>
+<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001814266.png" alt="image-20230118001814266"></p>
+<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001904634.png" alt="image-20230118001904634"></p>
+</li>
+</ol>
+<h3 id="真实案例"><a href="#真实案例" class="headerlink" title="真实案例"></a>真实案例</h3><p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118002916893.png" alt="image-20230118002916893"></p>
+<p>如上图，两笔攻击交易中间夹着一笔正常的交易，攻击流程为</p>
+<ol>
+<li>用户首先发起一笔正常交易，用 237000.705USDC 买入 DG，设置 Gas Price 为 40.5Gwei；</li>
+<li>抢跑机器人检测到这笔有利可图的交易后，随即展开攻击，发起一笔买入交易，设定 GasPrice 为 49.9Gwei，凭借 Gas 竞争机制成功抢跑用户的正常交易；</li>
+<li>与此同时，机器人发出另一笔卖出交易，设置 GasPrice 同样为 40.5Gwei，因为时间顺序的原因，紧贴着用户正常交易完成</li>
+</ol>
+<p>根据AMM机制，通过这次抢跑攻击，黑客赚取 16448.012-16310.3-15.2-10.61 = $111.9，这种两笔攻击交易夹着一笔正常交易的攻击，被形象的称为三明治攻击。</p>
+<h4 id="原理说明"><a href="#原理说明" class="headerlink" title="原理说明"></a>原理说明</h4><p>现如今的主流 DEX 如 Uniswap 等，采用的都是 AMM （自动化做市商）机制，其价格遵循恒定乘积公式。例如，在 Uniswap 中建立一个 A 代币与 ETH 的流动池，A 数量为 1000，ETH 数量为 100，则两者数量乘积为 100000，当前 A 价格为 0.1ETH。当 Alice 试图用 10 个 ETH 来池子里购买 A 时，他所得到的 A 的数量 X，可以用下面的公式推导 (注：为简化计算，以下均未考虑手续费)：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(1000-X) * (100+10) = 100000</span><br><span class="line">X = 90.9</span><br></pre></td></tr></table></figure>
+
+<p>这笔交易中，A 的价格为 10/90.9 = 0.11，相比于原来 A 的价格，价格滑点为 :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(0.11-0.1) / 0.1 = 0.1 = %10</span><br></pre></td></tr></table></figure>
+
+<p>一笔交易就让币价产生了 10% 的滑点，可见越是流动性差的池子，遇到大额交易，越是容易产生滑点。如果能在用户正常的大额交易前（预计该交易会产生较大滑点），抢先买入 A，再在用户正常交易后，将刚买入的 A 卖出，就可以获得一笔不菲的收益。</p>
+<p>例如，假设在 Alice 的交易前，Bob 抢先花 5 个 ETH 购买 A，然后在 Alice 的交易完成后，Bob 再把之前买入的 A 卖出</p>
+<ol>
+<li><p>首先是 Bob 的抢跑交易，Bob 用 5 ETH 购得 47.62 个 A：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(1000 - X) * (100 + 5) = 10000</span><br><span class="line">X = 47.62</span><br><span class="line">A 的价格：0.10499</span><br></pre></td></tr></table></figure></li>
+<li><p>接下来是 Alice 的正常交易，注意此时流动池中 A 的数量变为 952.38，ETH 的数量变为 105</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(952.38 - X) * (105 + 10) = 10000</span><br><span class="line">X = 82.81</span><br><span class="line">A 的价格：0.12075</span><br></pre></td></tr></table></figure></li>
+<li><p>最后 Bob 卖出 47.62 个 A 的交易，此时流动性中 A 的数量为 869.57，ETH 的数量为 1150</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(869.57 + 47.62) * (115 - Y) = 10000</span><br><span class="line">Y = 5.97</span><br><span class="line">A 的价格：0.12536</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>通过这一次抢跑攻击，Bob 净赚 5.97-5 = 0.97 个 ETH，而 Alice 净亏 90.9-82.81 = 8.09 个 A，Bob 通过使 Alice 蒙受更大的滑点损失来获得自己的收益。</p>
+<p>实际的抢跑攻击会更复杂，攻击者需要进行更精密的计算，以求实现以下两个目标：</p>
+<ul>
+<li><p>让用户的交易结果无限逼近用户自己设置的最大滑点（max_slippage），以求达到理论上的最大套利空间</p>
+</li>
+<li><p>在手续费竞争力和收益之间取得平衡，尽可能的在与其他机器人的竞争中获胜</p>
+</li>
+</ul>
+<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118005055941.png" alt="image-20230118005055941"></p>
+<p>我们用图表来更好的解释这一过程：</p>
+<ol>
+<li>用户在 A 点，打算投入 in_amount(user) 个 USDT 购买 ETH，这笔交易正常会把当前状态推向 B，同时用户设置了最大滑点为 B(max_slippage)；</li>
+<li>抢跑机器人监测到这笔交易，先于用户交易之前，进行了一笔 in_amount(robot) 个 USDT 的买入交易，将当前状态推到 A’；</li>
+<li>用户的交易随后执行，达到其设置的最大滑点 B(max_slippage)；</li>
+<li>抢跑机器人把步骤 2 中买入的 ETH 卖出，状态达到 C 点，得到 out_amount(robot) 个 USDT</li>
+<li>抢跑机器人获得收益 out_amount(robot) - in_amount(robot)-手续费</li>
+</ol>
+<h3 id="预防方法"><a href="#预防方法" class="headerlink" title="预防方法"></a>预防方法</h3><p>以通过减少交易顺序或时间的重要性，减少被抢先交易的收益：</p>
+<ul>
+<li>使用预提交方案(commit-reveal scheme)。</li>
+<li>使用暗池，用户发出的交易将不进入公开的<code>mempool</code>，而是直接到矿工手里。例如 flashbots 和 TaiChi。</li>
+<li>设置较低的交易滑点，比如 0.1%，这会让抢跑机器人缺少可盈利的空间，但是过低的滑点值会导致大额交易容易失败。</li>
+<li>提高 gas 费用，增加攻击机器人的成本，但同样会增加自己的交易成本</li>
+</ul>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://github.com/AmazingAng/WTF-Solidity/tree/main/S11_Frontrun">[1] WTF Solidity 合约安全: S11. 抢先交易</a></p>
+<p><a target="_blank" rel="noopener" href="https://learnblockchain.cn/article/2473">[2] 解析以太坊抢先交易原理及其解决方案</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Banana69</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://banana69.site/2023/01/17/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93/">https://banana69.site/2023/01/17/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Banana69.site" target="_blank">Banana69</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">智能合约</a></div><div class="post_share"></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/cat.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Banana69</div><div class="author-info__description">菜鸡的博客</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Banannna69"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Banannna69" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:junminn@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E6%8A%A2%E8%B7%91"><span class="toc-text">传统抢跑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E4%B8%8A%E6%8A%A2%E8%B7%91"><span class="toc-text">链上抢跑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E4%B8%8A%E6%8A%A2%E8%B7%91%E5%AE%9E%E8%B7%B5"><span class="toc-text">链上抢跑实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%A1%88%E4%BE%8B"><span class="toc-text">真实案例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%AF%B4%E6%98%8E"><span class="toc-text">原理说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2%E6%96%B9%E6%B3%95"><span class="toc-text">预防方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/17/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93/" title="抢先交易 Front-running">抢先交易 Front-running</a><time datetime="2023-01-17T14:12:01.000Z" title="发表于 2023-01-17 22:12:01">2023-01-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/10/solidity%E5%BA%94%E7%94%A8/" title="solidity应用学习笔记">solidity应用学习笔记</a><time datetime="2022-11-10T11:31:09.000Z" title="发表于 2022-11-10 19:31:09">2022-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/22/solidity%E8%BF%9B%E9%98%B6/" title="Solididy进阶">Solididy进阶</a><time datetime="2022-10-22T01:24:02.000Z" title="发表于 2022-10-22 09:24:02">2022-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/" title="solidity编写内联汇编">solidity编写内联汇编</a><time datetime="2022-08-23T08:51:44.000Z" title="发表于 2022-08-23 16:51:44">2022-08-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/19/Chain-Flag%E8%AE%B0%E5%BD%95/" title="Chain Flag记录">Chain Flag记录</a><time datetime="2022-08-19T09:38:23.000Z" title="发表于 2022-08-19 17:38:23">2022-08-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Banana69</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
