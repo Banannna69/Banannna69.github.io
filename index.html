@@ -1,233 +1,624 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Banana69</title><meta name="author" content="Banana69"><meta name="copyright" content="Banana69"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="菜鸡的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Banana69">
-<meta property="og:url" content="https://banana69.site/index.html">
-<meta property="og:site_name" content="Banana69">
-<meta property="og:description" content="菜鸡的博客">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://banana69.site/img/cat.jpg">
-<meta property="article:author" content="Banana69">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://banana69.site/img/cat.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://banana69.site/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '',
-  date_suffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: undefined,
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  source: {
-    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isanchor: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'Banana69',
-  isPost: false,
-  isHome: true,
-  isHighlightShrink: false,
-  isToc: false,
-  postUpdate: '2023-02-23 22:09:44'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Banana69</title>
+  <meta name="author" content="Banana69">
+  <meta name="copyright" content="Banana69">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="菜鸡的博客">
+  <meta property="og:type" content="website">
+  <meta name="google-site-verification" content="yBHsHcZ_6DnlX6gAS1NL9etiUhkIeYVivEEytBjKqP4" />
+  <meta property="og:title" content="Banana69">
+  <meta property="og:url" content="https://banana69.site/index.html">
+  <meta property="og:site_name" content="Banana69">
+  <meta property="og:description" content="菜鸡的博客">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:image" content="https://banana69.site/img/cat.jpg">
+  <meta property="article:author" content="Banana69">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://banana69.site/img/cat.jpg">
+  <link rel="shortcut icon" href="/img/favicon.ico">
+  <link rel="canonical" href="https://banana69.site/">
+  <link rel="preconnect" href="//cdn.jsdelivr.net" />
+  <link rel="preconnect" href="//busuanzi.ibruce.info" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print"
+    onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print"
+    onload="this.media='all'">
+  <script>const GLOBAL_CONFIG = {
+      root: '/',
+      algolia: undefined,
+      localSearch: { "path": "search.xml", "languages": { "hits_empty": "找不到您查询的内容：${query}" } },
+      translate: undefined,
+      noticeOutdate: undefined,
+      highlight: { "plugin": "highlighjs", "highlightCopy": true, "highlightLang": true, "highlightHeightLimit": false },
+      copy: {
+        success: '复制成功',
+        error: '复制错误',
+        noSupport: '浏览器不支持'
       },
-
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
-
-        if (!itemStr) {
-          return undefined
+      relativeDate: {
+        homepage: false,
+        post: false
+      },
+      runtime: '',
+      date_suffix: {
+        just: '刚刚',
+        min: '分钟前',
+        hour: '小时前',
+        day: '天前',
+        month: '个月前'
+      },
+      copyright: undefined,
+      lightbox: 'fancybox',
+      Snackbar: undefined,
+      source: {
+        jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+        justifiedGallery: {
+          js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+          css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
         }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
+      },
+      isPhotoFigcaption: false,
+      islazyload: false,
+      isanchor: false
+    }</script>
+  <script id="config-diff">var GLOBAL_CONFIG_SITE = {
+      title: 'Banana69',
+      isPost: false,
+      isHome: true,
+      isHighlightShrink: false,
+      isToc: false,
+      postUpdate: '2023-02-23 22:10:43'
+    }</script><noscript>
+    <style type="text/css">
+      #nav {
+        opacity: 1
       }
-    }
-  
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
+
+      .justified-gallery img {
+        opacity: 1
       }
-      document.head.appendChild(script)
-    })
-  
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
+
+      #recent-posts time,
+      #post-meta time {
+        display: inline !important
       }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
-    
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
-        
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
-    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Banana69" type="application/atom+xml">
-</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/cat.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Banana69</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/23/Ethernaut/" title="Ethernaut 题解">Ethernaut 题解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-22T16:00:00.000Z" title="发表于 2023-02-23 00:00:00">2023-02-23</time></span></div><div class="content">1. Fallback// SPDX-License-Identifier: MITpragma solidity ^0.6.0;import &#x27;@openzeppelin/contracts/math/SafeMath.sol&#x27;;contract Fallback &#123;  using SafeMath for uint256;  mapping(address =&gt; uint) public contributions;  address payable public owner;  constructor() public &#123;    owner = msg.sender;    contributions[msg.sender] = 1000 * (1 ether);  &#125;  modifier onlyOwner &#123;        require(            msg.sender == owner,            &quot;caller is not the owner&quot;         ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/21/Upgradeable-Contract/" title="Upgradeable Contract 可升级合约">Upgradeable Contract 可升级合约</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-21T11:09:45.000Z" title="发表于 2023-02-21 19:09:45">2023-02-21</time></span></div><div class="content">0x01 前言区块链的不可更改性与传统的软件开发过程有根本性的冲突，在传统的软件开发过程中，代码被不断地更新以修复错误和增加新的功能。在智能合约可以通过一些技术在不改变代码的条件下增加新的功能。主要是通过deldegatecall和回退函数fallback实现。
-0x02 代码和存储
-我们将智能合约在执行过程中的EVM状态分为持久性和易失性状态。持久性状态在不同的交易中都会被记住，而易失性状态在交易执行后会立即被遗忘。EVM代码和存储都是持久性的，而堆栈、内存、程序计数器和剩余gas的值都是易失性的。在这里，我们将关注点放在代码和存储部分，他们对理解可升级合约来说很重要。
-虽然代码和存储都是持久的，但两者之间有一个根本的区别。存储是可变的，可以被修改，而代码一旦部署就不可改变。为此，代码与存储在内存的只读部分分开保存。这种分离使得delegatecall指令成为可能，它使用一个合约的代码和另一个合约的存储
-区分存储和内存是很重要的。存储器是持久的，它将32个字节的地址映射到32个字节的值，这些值被称为slot。另一方面，内存是不稳定的，它将32字节的地址映射为1字节1字节的值。换句话说 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/05/OrionProtocol%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/" title="OrionProtocol攻击分析">OrionProtocol攻击分析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-05T15:37:00.000Z" title="发表于 2023-02-05 23:37:00">2023-02-05</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E5%88%86%E6%9E%90/">区块链安全事件分析</a></span></div><div class="content">
-0x01 事件背景2023.2.2 Ethereum和Binance链上OrionProtocol因为合约漏洞遭到重入攻击，损失 2844766 USDT （Ethereum）和 191606 BUSD (BSC)，价值约290 万美元。
-Ethereum链过程分析：
-攻击者地址：0x837962b686fd5a407fb4e5f92e8be86a230484bd 
-攻击合约地址：0x5061f7e6dfc1a867d945d0ec39ea2a33f772380a
-攻击交易地址：0xa6f63fcb6bec8818864d96a5b1bb19e8bd85ee37b2cc916412e720988440b2aa
+    </style>
+  </noscript>
+  <script>(win => {
+                               win.saveToLocal = {
+                                 set: function setWithExpiry (key, value, ttl) {
+                                   if (ttl === 0) return
+                                   const now = new Date()
+                                   const expiryDay = ttl * 86400000
+                                   const item = {
+                                     value: value,
+                                     expiry: now.getTime() + expiryDay,
+                                   }
+                                   localStorage.setItem(key, JSON.stringify(item))
+                                 },
 
-0x02 攻击分析攻击者创建Token合约后对该合约进行转移及授权，为后续攻击做准备。
+                                 get: function getWithExpiry (key) {
+                                   const itemStr = localStorage.getItem(key)
 
-攻击者通过UNI-V2.swap方法借款并调用ExchangeWithAtomic.swapThroughOrionPool方法进行代币兑换，兑换路径为 
-path=[USDC, 0x64acd987a8603eeaf1ee8e87addd512908599aec,USDT] 
-路径中的 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/04/Java-%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/" title="Java 登录认证">Java 登录认证</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-04T09:36:53.000Z" title="发表于 2023-02-04 17:36:53">2023-02-04</time></span></div><div class="content">前言登录认证，估计是所有系统中最常见的功能了，并且也是最基础、最重要的功能。为了做好这一块而诞生了许多安全框架，比如最常见的Shiro、Spring Security等。
-这篇文章介绍实际项目中如何运用安全框完成登录认证（「Authentication」）、权限授权（「Authorization」）等功能。
-登录认证的原理登录认证（Authentication）的概念非常简单，就是通过一定手段对用户的身份进行确认，即判断用户的账户和密码是否正确。但是在Web系统中「HTTP请求是一个无状态的协议」。就是说浏览器每一次发送的请求都是独立的，对于浏览器来说，不会记住上一次的请求，所以在Web系统中确认了用户的身份后，需要某种机制来记住用户是否已经登陆过。
-现在流行两种方式登录认证方式：「Session」和「JWT」，无论是哪种方式其原理都是Token机制，即保存凭证：
+                                   if (!itemStr) {
+                                     return undefined
+                                   }
+                                   const item = JSON.parse(itemStr)
+                                   const now = new Date()
 
-前端发起登录认证请求
-后端登录验证通过，返回给前端一个「凭证」
-前端发起新的请求时携带「凭证」
+                                   if (now.getTime() > item.expiry) {
+                                     localStorage.removeItem(key)
+                                     return undefined
+                                   }
+                                   return item.value
+                                 }
+                               }
 
-搭建一个springboot web项目。
-创建一个实体类模拟用户：
-public class User&#123;     ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/03/Foundry/" title="Foundry 框架使用">Foundry 框架使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-03T14:12:01.000Z" title="发表于 2023-02-03 22:12:01">2023-02-03</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E5%8C%BA%E5%9D%97%E9%93%BE/">智能合约 区块链</a></span></div><div class="content">Foundry 介绍Foundry是 一个用 Rust编写的用于以太坊应用程序开发的极快、可移植和模块化的工具包 ( Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.)
- Foundry 作为 以太坊（Solidity语言）项目/应用程序开发的 “工程化” 工具，提供专业 Solidity 开发环境与“工具链”。通过它你可以快速、方便的完成依赖项管理、编译、运行测试、部署，并可以通过命令行和 Solidity 脚本与链进行交互，其利用 ethers-solc 比较于传统通过 Node.js 辅助完成的测试用例/工程，Foundry 构建、测试的执行速度很快。
-Foundry 组成Foundry 项目由 Forge, Cast, Anvil 几个部分（命令行工具）组成
+                               win.getScript = url => new Promise((resolve, reject) => {
+                                 const script = document.createElement('script')
+                                 script.src = url
+                                 script.async = true
+                                 script.onerror = reject
+                                 script.onload = script.onreadystatechange = function () {
+                                   const loadState = this.readyState
+                                   if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                                   script.onload = script.onreadystatechange = null
+                                   resolve()
+                                 }
+                                 document.head.appendChild(script)
+                               })
 
-Forge: Foundry 项目中执行初始化项目、管理依赖、测试、构建、部署智能合约的命令行工具;
-Cast: Foundry 项目中与 RPC 节点 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/17/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93/" title="抢先交易 Front-running">抢先交易 Front-running</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-17T14:12:01.000Z" title="发表于 2023-01-17 22:12:01">2023-01-17</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E5%8C%BA%E5%9D%97%E9%93%BE/">智能合约 区块链</a></span></div><div class="content">传统抢跑抢跑最初诞生于传统金融市场，是一场单纯为了利益的竞赛。在金融市场中，信息差催生了金融中介机构，他们可以通过最先了解某些行业信息并最先做出反应从而实现获利。这些攻击主要发生在股票市场交易和早期的域名注册。
-链上抢跑链上抢跑指的是搜索者或矿工通过调高gas或其他方法将自己的交易安插在其他交易之前，来攫取价值。在区块链中，矿工可以通过打包、排除或重新排序他们产生的区块中的交易来获得一定的利润，而MEV是衡量这种利润的指标。
-在用户的交易被矿工打包进以太坊区块链之前，大部分交易会汇集到Mempool（交易内存池）中，矿工在这里寻找费用高的交易优先打包出块，实现利益最大化。通常来说，gas price越高的交易，越容易被打包。简单来说，Front-Running 是指在一笔正常交易等待打包的过程中，抢跑机器人通过设置更高 Gas 费用抢先完成攻击交易，以此攫取用户利益的攻击行为。而 Mempool 是一组已经广播到网络中并等待被打包进区块的以太坊交易，它是 Front-Running 可以实施的前提，抢跑机器人通过不断扫描 Mempool 中的交易，来分析发现可攻击的目标。
+                               win.activateDarkMode = function () {
+                                 document.documentElement.setAttribute('data-theme', 'dark')
+                                 if (document.querySelector('meta[name="theme-color"]') !== null) {
+                                   document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+                                 }
+                               }
+                               win.activateLightMode = function () {
+                                 document.documentElement.setAttribute('data-theme', 'light')
+                                 if (document.querySelector('meta[name="theme-color"]') !== null) {
+                                   document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+                                 }
+                               }
+                               const t = saveToLocal.get('theme')
 
-MEV:  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/11/10/solidity%E5%BA%94%E7%94%A8/" title="solidity应用学习笔记">solidity应用学习笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-10T11:31:09.000Z" title="发表于 2022-11-10 19:31:09">2022-11-10</time></span></div><div class="content">ERC20ERC20是以太坊上的代币标准，来自2015年11月V神参与的EIP20。它实现了代币转账的基本逻辑：
+                               if (t === 'dark') activateDarkMode()
+                               else if (t === 'light') activateLightMode()
 
-IERC20 totalSupply: 获取该合约内总的 ERC20 Token 总量
-balanceOf: 获取特定账户的 ERC20 Token 总量
-transfer: 向目标账户转移特定数量的 ERC20 Token
-allowance: 获取目标账户能够使用的源账户的 ERC20 Token 数量
-approve: 向目标账户授权, 可以转移指定额度的 ERC20 Token 数量
-transferFrom: ( 第三方调用 ) 从源账户向目标账户转移制定数量的 ERC20 Token
+                               const asideStatus = saveToLocal.get('aside-status')
+                               if (asideStatus !== undefined) {
+                                 if (asideStatus === 'hide') {
+                                   document.documentElement.classList.add('hide-aside')
+                                 } else {
+                                   document.documentElement.classList.remove('hide-aside')
+                                 }
+                               }
+                             })(window)</script>
+  <meta name="generator" content="Hexo 5.4.2">
+  <link rel="alternate" href="/atom.xml" title="Banana69" type="application/atom+xml">
+</head>
 
-IERC20IERC20是ERC20代币标准的接口合约，规定了ERC20代币需要实现的函数和事件。 之所以需要定义接口，是因为有了规范后，就存在所有的ERC20代币都通用的函数名称，输入参数，输出参数。 在接口函数中，只需要定义函数名称，输入参数，输出参数，并不关心函数内部如何实现。 由此，函数就分为内部和外部两个内容，一个重点是实现，另一个是对外接口，约定共同数据。 这就是为 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/10/22/solidity%E8%BF%9B%E9%98%B6/" title="Solididy进阶">Solididy进阶</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-22T01:24:02.000Z" title="发表于 2022-10-22 09:24:02">2022-10-22</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span></div><div class="content">0x01 函数重载函数名相同但输入参数类型不同的函数可以同时存在，他们被视为不同的函数。注意，solidity不允许修饰器（modifier）重载。
-重载函数在经过编译后，由于不同的参数类型，其函数选择器也不相同。
-再调用重载函数时，会把输入的实际参数和函数参数的变量类型做匹配，如果出现多个匹配的重载函数则会报错。
-function f(uint8 _in) public pure returns (uint8 out) &#123;	out = _in;&#125;function f(uint256 _in) public pure returns (uint256 out) &#123;	out = _in;&#125;
+<body>
+  <div id="sidebar">
+    <div id="menu-mask"></div>
+    <div id="sidebar-menus">
+      <div class="avatar-img is-center"><img src="/img/cat.jpg" onerror="onerror=null;src='/img/friend_404.gif'"
+          alt="avatar" /></div>
+      <div class="site-data is-center">
+        <div class="data-item"><a href="/archives/">
+            <div class="headline">文章</div>
+            <div class="length-num">26</div>
+          </a></div>
+        <div class="data-item"><a href="/tags/">
+            <div class="headline">标签</div>
+            <div class="length-num">13</div>
+          </a></div>
+        <div class="data-item"><a href="/categories/">
+            <div class="headline">分类</div>
+            <div class="length-num">7</div>
+          </a></div>
+      </div>
+      <hr />
+      <div class="menus_items">
+        <div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a>
+        </div>
+        <div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span>
+              Archives</span></a></div>
+        <div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span>
+              Tags</span></a></div>
+        <div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span>
+              Categories</span></a></div>
+      </div>
+    </div>
+  </div>
+  <div class="page" id="body-wrap">
+    <header class="not-top-img" id="page-header">
+      <nav id="nav"><span id="blog_name"><a id="site-name" href="/">Banana69</a></span>
+        <div id="menus">
+          <div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span>
+                搜索</span></a></div>
+          <div class="menus_items">
+            <div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span>
+                  Home</span></a></div>
+            <div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span>
+                  Archives</span></a></div>
+            <div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span>
+                  Tags</span></a></div>
+            <div class="menus_item"><a class="site-page" href="/categories/"><i
+                  class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div>
+          </div>
+          <div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div>
+        </div>
+      </nav>
+    </header>
+    <main class="layout" id="content-inner">
+      <div class="recent-posts" id="recent-posts">
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/23/Ethernaut/"
+              title="Ethernaut 题解">Ethernaut 题解</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2023-02-22T16:00:00.000Z"
+                  title="发表于 2023-02-23 00:00:00">2023-02-23</time></span></div>
+            <div class="content">1. Fallback// SPDX-License-Identifier: MITpragma solidity ^0.6.0;import
+              &#x27;@openzeppelin/contracts/math/SafeMath.sol&#x27;;contract Fallback &#123; using SafeMath for uint256;
+              mapping(address =&gt; uint) public contributions; address payable public owner; constructor() public
+              &#123; owner = msg.sender; contributions[msg.sender] = 1000 * (1 ether); &#125; modifier onlyOwner &#123;
+              require( msg.sender == owner, &quot;caller is not the owner&quot; ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/21/Upgradeable-Contract/"
+              title="Upgradeable Contract 可升级合约">Upgradeable Contract 可升级合约</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2023-02-21T11:09:45.000Z"
+                  title="发表于 2023-02-21 19:09:45">2023-02-21</time></span></div>
+            <div class="content">0x01
+              前言区块链的不可更改性与传统的软件开发过程有根本性的冲突，在传统的软件开发过程中，代码被不断地更新以修复错误和增加新的功能。在智能合约可以通过一些技术在不改变代码的条件下增加新的功能。主要是通过deldegatecall和回退函数fallback实现。
+              0x02 代码和存储
+              我们将智能合约在执行过程中的EVM状态分为持久性和易失性状态。持久性状态在不同的交易中都会被记住，而易失性状态在交易执行后会立即被遗忘。EVM代码和存储都是持久性的，而堆栈、内存、程序计数器和剩余gas的值都是易失性的。在这里，我们将关注点放在代码和存储部分，他们对理解可升级合约来说很重要。
+              虽然代码和存储都是持久的，但两者之间有一个根本的区别。存储是可变的，可以被修改，而代码一旦部署就不可改变。为此，代码与存储在内存的只读部分分开保存。这种分离使得delegatecall指令成为可能，它使用一个合约的代码和另一个合约的存储
+              区分存储和内存是很重要的。存储器是持久的，它将32个字节的地址映射到32个字节的值，这些值被称为slot。另一方面，内存是不稳定的，它将32字节的地址映射为1字节1字节的值。换句话说 ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title"
+              href="/2023/02/05/OrionProtocol%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/"
+              title="OrionProtocol攻击分析">OrionProtocol攻击分析</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2023-02-05T15:37:00.000Z"
+                  title="发表于 2023-02-05 23:37:00">2023-02-05</time></span><span class="article-meta"><span
+                  class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a
+                  class="article-meta__categories"
+                  href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E5%88%86%E6%9E%90/">区块链安全事件分析</a></span>
+            </div>
+            <div class="content">
+              0x01 事件背景2023.2.2 Ethereum和Binance链上OrionProtocol因为合约漏洞遭到重入攻击，损失 2844766 USDT （Ethereum）和 191606 BUSD
+              (BSC)，价值约290 万美元。
+              Ethereum链过程分析：
+              攻击者地址：0x837962b686fd5a407fb4e5f92e8be86a230484bd
+              攻击合约地址：0x5061f7e6dfc1a867d945d0ec39ea2a33f772380a
+              攻击交易地址：0xa6f63fcb6bec8818864d96a5b1bb19e8bd85ee37b2cc916412e720988440b2aa
 
-调用f(50)会报错，因为 50 既可以被转换为 uint8 ，也可以被转换为uint256。
-0x02 库合约库函数是一种特殊的合约，为了提升solidity代码的复用性和减少gas而存在。库合约一般都是一些好用的函数合集（库函数）。
-库合约与普通合约有以下几点不同：
+              0x02 攻击分析攻击者创建Token合约后对该合约进行转移及授权，为后续攻击做准备。
 
-不能存在状态变量
-不能够继承或被继承
-不能接受以太币
-不可以被销毁
+              攻击者通过UNI-V2.swap方法借款并调用ExchangeWithAtomic.swapThroughOrionPool方法进行代币兑换，兑换路径为
+              path=[USDC, 0x64acd987a8603eeaf1ee8e87addd512908599aec,USDT]
+              路径中的 ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title"
+              href="/2023/02/04/Java-%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/" title="Java 登录认证">Java 登录认证</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2023-02-04T09:36:53.000Z"
+                  title="发表于 2023-02-04 17:36:53">2023-02-04</time></span></div>
+            <div class="content">前言登录认证，估计是所有系统中最常见的功能了，并且也是最基础、最重要的功能。为了做好这一块而诞生了许多安全框架，比如最常见的Shiro、Spring Security等。
+              这篇文章介绍实际项目中如何运用安全框完成登录认证（「Authentication」）、权限授权（「Authorization」）等功能。
+              登录认证的原理登录认证（Authentication）的概念非常简单，就是通过一定手段对用户的身份进行确认，即判断用户的账户和密码是否正确。但是在Web系统中「HTTP请求是一个无状态的协议」。就是说浏览器每一次发送的请求都是独立的，对于浏览器来说，不会记住上一次的请求，所以在Web系统中确认了用户的身份后，需要某种机制来记住用户是否已经登陆过。
+              现在流行两种方式登录认证方式：「Session」和「JWT」，无论是哪种方式其原理都是Token机制，即保存凭证：
 
-使用库合约：
+              前端发起登录认证请求
+              后端登录验证通过，返回给前端一个「凭证」
+              前端发起新的请求时携带「凭证」
 
-u ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/" title="solidity编写内联汇编">solidity编写内联汇编</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-08-23T08:51:44.000Z" title="发表于 2022-08-23 16:51:44">2022-08-23</time></span></div><div class="content">0x01 介绍汇编（也称为汇编语言）是指可使用汇编器转换为机器代码的低级编程语言。 汇编语言与物理机或虚拟机绑定，因为它们实现了指令集。 一条指令告诉CPU执行一些基本任务。
-EVM是一个基于栈的虚拟机（stack machine），栈这种数据结构只允许两个操作：压入（PUSH）或弹出（POP）数据。 最后压入的数据位于栈顶，因此将被第一个弹出，这被称为后进先出 （LIFO：Last In, First Out）。栈虚拟机将所有的操作数保存在栈上，其中所有操作数都存储在栈中。 它仍然具有PC（程序计数器）和SP（堆栈指针）的存储器和寄存器，但是所有内容都存储在栈中。
-至于为什么要在solidity中使用内联汇编，有以下几个优点：
+              搭建一个springboot web项目。
+              创建一个实体类模拟用户：
+              public class User&#123; ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title" href="/2023/02/03/Foundry/"
+              title="Foundry 框架使用">Foundry 框架使用</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2023-02-03T14:12:01.000Z"
+                  title="发表于 2023-02-03 22:12:01">2023-02-03</time></span><span class="article-meta"><span
+                  class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a
+                  class="article-meta__categories"
+                  href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E5%8C%BA%E5%9D%97%E9%93%BE/">智能合约
+                  区块链</a></span></div>
+            <div class="content">Foundry 介绍Foundry是 一个用 Rust编写的用于以太坊应用程序开发的极快、可移植和模块化的工具包 ( Foundry is a blazing fast,
+              portable and modular toolkit for Ethereum application development written in Rust.)
+              Foundry 作为 以太坊（Solidity语言）项目/应用程序开发的 “工程化” 工具，提供专业 Solidity
+              开发环境与“工具链”。通过它你可以快速、方便的完成依赖项管理、编译、运行测试、部署，并可以通过命令行和 Solidity 脚本与链进行交互，其利用 ethers-solc 比较于传统通过 Node.js
+              辅助完成的测试用例/工程，Foundry 构建、测试的执行速度很快。
+              Foundry 组成Foundry 项目由 Forge, Cast, Anvil 几个部分（命令行工具）组成
 
-细粒度控制
-可以使用操作码直接与EVM进行交互，这使对智能合约要执行的操作可以进行更精细的控制。
-汇编代码还提供了更多仅靠Solidity不能实现的逻辑权限，例如指向特定的内存插槽，当编写合约库文件时，细粒度控制有很大的作用。
+              Forge: Foundry 项目中执行初始化项目、管理依赖、测试、构建、部署智能合约的命令行工具;
+              Cast: Foundry 项目中与 RPC 节点 ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title"
+              href="/2023/01/17/%E6%8A%A2%E5%85%88%E4%BA%A4%E6%98%93/" title="抢先交易 Front-running">抢先交易 Front-running</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2023-01-17T14:12:01.000Z"
+                  title="发表于 2023-01-17 22:12:01">2023-01-17</time></span><span class="article-meta"><span
+                  class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a
+                  class="article-meta__categories"
+                  href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E5%8C%BA%E5%9D%97%E9%93%BE/">智能合约
+                  区块链</a></span></div>
+            <div class="content">
+              传统抢跑抢跑最初诞生于传统金融市场，是一场单纯为了利益的竞赛。在金融市场中，信息差催生了金融中介机构，他们可以通过最先了解某些行业信息并最先做出反应从而实现获利。这些攻击主要发生在股票市场交易和早期的域名注册。
+              链上抢跑链上抢跑指的是搜索者或矿工通过调高gas或其他方法将自己的交易安插在其他交易之前，来攫取价值。在区块链中，矿工可以通过打包、排除或重新排序他们产生的区块中的交易来获得一定的利润，而MEV是衡量这种利润的指标。
+              在用户的交易被矿工打包进以太坊区块链之前，大部分交易会汇集到Mempool（交易内存池）中，矿工在这里寻找费用高的交易优先打包出块，实现利益最大化。通常来说，gas
+              price越高的交易，越容易被打包。简单来说，Front-Running 是指在一笔正常交易等待打包的过程中，抢跑机器人通过设置更高 Gas 费用抢先完成攻击交易，以此攫取用户利益的攻击行为。而 Mempool
+              是一组已经广播到网络中并等待被打包进区块的以太坊交易，它是 Front-Running 可以实施的前提，抢跑机器人通过不断扫描 Mempool 中的交易，来分析发现可攻击的目标。
 
-减少Gas消耗
-在solidity中使用汇编代码还可以节省Gas，如以下例子：
-function addAssembly(uint ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/19/Chain-Flag%E8%AE%B0%E5%BD%95/" title="Chain Flag记录">Chain Flag记录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-08-19T09:38:23.000Z" title="发表于 2022-08-19 17:38:23">2022-08-19</time></span></div><div class="content">integer overflowbetpragma solidity ^0.4.24;contract bet &#123;    uint secret;    address owner;        mapping(address =&gt; uint) public balanceOf;    mapping(address =&gt; uint) public gift;    mapping(address =&gt; uint) public isbet;        event SendFlag(string b64email);        function Bet() public&#123;        owner = msg.sender;    &#125;        function payforflag(string b64email) public &#123;        require(balanceOf[msg.sender] &gt;= 100000);        balanceOf[msg.sender]=0;         ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/cat.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Banana69</div><div class="author-info__description">菜鸡的博客</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Banannna69"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Banannna69" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:junminn@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/23/Ethernaut/" title="Ethernaut 题解">Ethernaut 题解</a><time datetime="2023-02-22T16:00:00.000Z" title="发表于 2023-02-23 00:00:00">2023-02-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/21/Upgradeable-Contract/" title="Upgradeable Contract 可升级合约">Upgradeable Contract 可升级合约</a><time datetime="2023-02-21T11:09:45.000Z" title="发表于 2023-02-21 19:09:45">2023-02-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/05/OrionProtocol%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/" title="OrionProtocol攻击分析">OrionProtocol攻击分析</a><time datetime="2023-02-05T15:37:00.000Z" title="发表于 2023-02-05 23:37:00">2023-02-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/04/Java-%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/" title="Java 登录认证">Java 登录认证</a><time datetime="2023-02-04T09:36:53.000Z" title="发表于 2023-02-04 17:36:53">2023-02-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/03/Foundry/" title="Foundry 框架使用">Foundry 框架使用</a><time datetime="2023-02-03T14:12:01.000Z" title="发表于 2023-02-03 22:12:01">2023-02-03</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
-            <i class="fas fa-folder-open"></i>
-            <span>分类</span>
-            
+              MEV: ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title" href="/2022/11/10/solidity%E5%BA%94%E7%94%A8/"
+              title="solidity应用学习笔记">solidity应用学习笔记</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2022-11-10T11:31:09.000Z"
+                  title="发表于 2022-11-10 19:31:09">2022-11-10</time></span></div>
+            <div class="content">ERC20ERC20是以太坊上的代币标准，来自2015年11月V神参与的EIP20。它实现了代币转账的基本逻辑：
+
+              IERC20 totalSupply: 获取该合约内总的 ERC20 Token 总量
+              balanceOf: 获取特定账户的 ERC20 Token 总量
+              transfer: 向目标账户转移特定数量的 ERC20 Token
+              allowance: 获取目标账户能够使用的源账户的 ERC20 Token 数量
+              approve: 向目标账户授权, 可以转移指定额度的 ERC20 Token 数量
+              transferFrom: ( 第三方调用 ) 从源账户向目标账户转移制定数量的 ERC20 Token
+
+              IERC20IERC20是ERC20代币标准的接口合约，规定了ERC20代币需要实现的函数和事件。 之所以需要定义接口，是因为有了规范后，就存在所有的ERC20代币都通用的函数名称，输入参数，输出参数。
+              在接口函数中，只需要定义函数名称，输入参数，输出参数，并不关心函数内部如何实现。 由此，函数就分为内部和外部两个内容，一个重点是实现，另一个是对外接口，约定共同数据。 这就是为 ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title" href="/2022/10/22/solidity%E8%BF%9B%E9%98%B6/"
+              title="Solididy进阶">Solididy进阶</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2022-10-22T01:24:02.000Z"
+                  title="发表于 2022-10-22 09:24:02">2022-10-22</time></span><span class="article-meta"><span
+                  class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a
+                  class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span></div>
+            <div class="content">0x01 函数重载函数名相同但输入参数类型不同的函数可以同时存在，他们被视为不同的函数。注意，solidity不允许修饰器（modifier）重载。
+              重载函数在经过编译后，由于不同的参数类型，其函数选择器也不相同。
+              再调用重载函数时，会把输入的实际参数和函数参数的变量类型做匹配，如果出现多个匹配的重载函数则会报错。
+              function f(uint8 _in) public pure returns (uint8 out) &#123; out = _in;&#125;function f(uint256 _in)
+              public pure returns (uint256 out) &#123; out = _in;&#125;
+
+              调用f(50)会报错，因为 50 既可以被转换为 uint8 ，也可以被转换为uint256。
+              0x02 库合约库函数是一种特殊的合约，为了提升solidity代码的复用性和减少gas而存在。库合约一般都是一些好用的函数合集（库函数）。
+              库合约与普通合约有以下几点不同：
+
+              不能存在状态变量
+              不能够继承或被继承
+              不能接受以太币
+              不可以被销毁
+
+              使用库合约：
+
+              u ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title"
+              href="/2022/08/23/solidity%E7%BC%96%E5%86%99%E5%86%85%E8%81%94%E6%B1%87%E7%BC%96/"
+              title="solidity编写内联汇编">solidity编写内联汇编</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2022-08-23T08:51:44.000Z"
+                  title="发表于 2022-08-23 16:51:44">2022-08-23</time></span></div>
+            <div class="content">0x01 介绍汇编（也称为汇编语言）是指可使用汇编器转换为机器代码的低级编程语言。 汇编语言与物理机或虚拟机绑定，因为它们实现了指令集。 一条指令告诉CPU执行一些基本任务。
+              EVM是一个基于栈的虚拟机（stack machine），栈这种数据结构只允许两个操作：压入（PUSH）或弹出（POP）数据。 最后压入的数据位于栈顶，因此将被第一个弹出，这被称为后进先出 （LIFO：Last
+              In, First Out）。栈虚拟机将所有的操作数保存在栈上，其中所有操作数都存储在栈中。 它仍然具有PC（程序计数器）和SP（堆栈指针）的存储器和寄存器，但是所有内容都存储在栈中。
+              至于为什么要在solidity中使用内联汇编，有以下几个优点：
+
+              细粒度控制
+              可以使用操作码直接与EVM进行交互，这使对智能合约要执行的操作可以进行更精细的控制。
+              汇编代码还提供了更多仅靠Solidity不能实现的逻辑权限，例如指向特定的内存插槽，当编写合约库文件时，细粒度控制有很大的作用。
+
+              减少Gas消耗
+              在solidity中使用汇编代码还可以节省Gas，如以下例子：
+              function addAssembly(uint ...</div>
+          </div>
+        </div>
+        <div class="recent-post-item">
+          <div class="recent-post-info no-cover"><a class="article-title"
+              href="/2022/08/19/Chain-Flag%E8%AE%B0%E5%BD%95/" title="Chain Flag记录">Chain Flag记录</a>
+            <div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span
+                  class="article-meta-label">发表于</span><time datetime="2022-08-19T09:38:23.000Z"
+                  title="发表于 2022-08-19 17:38:23">2022-08-19</time></span></div>
+            <div class="content">integer overflowbetpragma solidity ^0.4.24;contract bet &#123; uint secret; address
+              owner; mapping(address =&gt; uint) public balanceOf; mapping(address =&gt; uint) public gift;
+              mapping(address =&gt; uint) public isbet; event SendFlag(string b64email); function Bet() public&#123;
+              owner = msg.sender; &#125; function payforflag(string b64email) public &#123;
+              require(balanceOf[msg.sender] &gt;= 100000); balanceOf[msg.sender]=0; ...</div>
+          </div>
+        </div>
+        <nav id="pagination">
+          <div class="pagination"><span class="page-number current">1</span><a class="page-number"
+              href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a
+              class="extend next" rel="next" href="/page/2/#content-inner"><i
+                class="fas fa-chevron-right fa-fw"></i></a></div>
+        </nav>
+      </div>
+      <div class="aside-content" id="aside-content">
+        <div class="card-widget card-info">
+          <div class="is-center">
+            <div class="avatar-img"><img src="/img/cat.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'"
+                alt="avatar" /></div>
+            <div class="author-info__name">Banana69</div>
+            <div class="author-info__description">菜鸡的博客</div>
+          </div>
+          <div class="card-info-data is-center">
+            <div class="card-info-data-item"><a href="/archives/">
+                <div class="headline">文章</div>
+                <div class="length-num">26</div>
+              </a></div>
+            <div class="card-info-data-item"><a href="/tags/">
+                <div class="headline">标签</div>
+                <div class="length-num">13</div>
+              </a></div>
+            <div class="card-info-data-item"><a href="/categories/">
+                <div class="headline">分类</div>
+                <div class="length-num">7</div>
+              </a></div>
+          </div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener"
+            href="https://github.com/Banannna69"><i class="fab fa-github"></i><span>Follow Me</span></a>
+          <div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Banannna69"
+              target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon"
+              href="mailto:junminn@126.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div>
+        </div>
+        <div class="sticky_layout">
+          <div class="card-widget card-recent-post">
+            <div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div>
+            <div class="aside-list">
+              <div class="aside-list-item no-cover">
+                <div class="content"><a class="title" href="/2023/02/23/Ethernaut/" title="Ethernaut 题解">Ethernaut
+                    题解</a><time datetime="2023-02-22T16:00:00.000Z" title="发表于 2023-02-23 00:00:00">2023-02-23</time>
+                </div>
+              </div>
+              <div class="aside-list-item no-cover">
+                <div class="content"><a class="title" href="/2023/02/21/Upgradeable-Contract/"
+                    title="Upgradeable Contract 可升级合约">Upgradeable Contract 可升级合约</a><time
+                    datetime="2023-02-21T11:09:45.000Z" title="发表于 2023-02-21 19:09:45">2023-02-21</time></div>
+              </div>
+              <div class="aside-list-item no-cover">
+                <div class="content"><a class="title"
+                    href="/2023/02/05/OrionProtocol%E6%94%BB%E5%87%BB%E5%88%86%E6%9E%90/"
+                    title="OrionProtocol攻击分析">OrionProtocol攻击分析</a><time datetime="2023-02-05T15:37:00.000Z"
+                    title="发表于 2023-02-05 23:37:00">2023-02-05</time></div>
+              </div>
+              <div class="aside-list-item no-cover">
+                <div class="content"><a class="title" href="/2023/02/04/Java-%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/"
+                    title="Java 登录认证">Java 登录认证</a><time datetime="2023-02-04T09:36:53.000Z"
+                    title="发表于 2023-02-04 17:36:53">2023-02-04</time></div>
+              </div>
+              <div class="aside-list-item no-cover">
+                <div class="content"><a class="title" href="/2023/02/03/Foundry/" title="Foundry 框架使用">Foundry
+                    框架使用</a><time datetime="2023-02-03T14:12:01.000Z" title="发表于 2023-02-03 22:12:01">2023-02-03</time>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-widget card-categories">
+            <div class="item-headline">
+              <i class="fas fa-folder-open"></i>
+              <span>分类</span>
+
             </div>
             <ul class="card-category-list" id="aside-cat-list">
-            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Solidity/"><span class="card-category-list-name">Solidity</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Web/"><span class="card-category-list-name">Web</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"><span class="card-category-list-name">区块链</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E5%88%86%E6%9E%90/"><span class="card-category-list-name">区块链安全事件分析</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"><span class="card-category-list-name">密码学</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><span class="card-category-list-name">智能合约</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E5%8C%BA%E5%9D%97%E9%93%BE/"><span class="card-category-list-name">智能合约 区块链</span><span class="card-category-list-count">2</span></a></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/DNS/" style="font-size: 1.1em; color: #999">DNS</a> <a href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/RPC/" style="font-size: 1.1em; color: #999">RPC</a> <a href="/tags/Solidity/" style="font-size: 1.1em; color: #999">Solidity</a> <a href="/tags/XXE/" style="font-size: 1.1em; color: #999">XXE</a> <a href="/tags/solidity-%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 1.1em; color: #999">solidity 智能合约</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 1.1em; color: #999">区块链</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 1.1em; color: #999">反序列化</a> <a href="/tags/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" style="font-size: 1.1em; color: #999">命令注入</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" style="font-size: 1.1em; color: #999">数字签名</a> <a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" style="font-size: 1.5em; color: #99a9bf">智能合约</a> <a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-CTF/" style="font-size: 1.23em; color: #999ea6">智能合约 CTF</a> <a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1/" style="font-size: 1.37em; color: #99a4b2">智能合约审计</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
-    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">七月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/06/"><span class="card-archive-list-date">六月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">四月 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By Banana69</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Welcome!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
-  if (typeof pangu === 'object') pangu.autoSpacingPage()
-  else {
-    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
-      .then(() => {
-        pangu.autoSpacingPage()
-      })
-  }
-}
+              <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Solidity/"><span
+                    class="card-category-list-name">Solidity</span><span class="card-category-list-count">1</span></a>
+              </li>
+              <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Web/"><span
+                    class="card-category-list-name">Web</span><span class="card-category-list-count">5</span></a></li>
+              <li class="card-category-list-item "><a class="card-category-list-link"
+                  href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"><span class="card-category-list-name">区块链</span><span
+                    class="card-category-list-count">7</span></a></li>
+              <li class="card-category-list-item "><a class="card-category-list-link"
+                  href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E5%88%86%E6%9E%90/"><span
+                    class="card-category-list-name">区块链安全事件分析</span><span class="card-category-list-count">1</span></a>
+              </li>
+              <li class="card-category-list-item "><a class="card-category-list-link"
+                  href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"><span class="card-category-list-name">密码学</span><span
+                    class="card-category-list-count">1</span></a></li>
+              <li class="card-category-list-item "><a class="card-category-list-link"
+                  href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"><span
+                    class="card-category-list-name">智能合约</span><span class="card-category-list-count">3</span></a></li>
+              <li class="card-category-list-item "><a class="card-category-list-link"
+                  href="/categories/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-%E5%8C%BA%E5%9D%97%E9%93%BE/"><span
+                    class="card-category-list-name">智能合约 区块链</span><span class="card-category-list-count">2</span></a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-widget card-tags">
+            <div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div>
+            <div class="card-tag-cloud"><a href="/tags/DNS/" style="font-size: 1.1em; color: #999">DNS</a> <a
+                href="/tags/Java/" style="font-size: 1.1em; color: #999">Java</a> <a href="/tags/RPC/"
+                style="font-size: 1.1em; color: #999">RPC</a> <a href="/tags/Solidity/"
+                style="font-size: 1.1em; color: #999">Solidity</a> <a href="/tags/XXE/"
+                style="font-size: 1.1em; color: #999">XXE</a> <a
+                href="/tags/solidity-%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"
+                style="font-size: 1.1em; color: #999">solidity 智能合约</a> <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/"
+                style="font-size: 1.1em; color: #999">区块链</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+                style="font-size: 1.1em; color: #999">反序列化</a> <a href="/tags/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/"
+                style="font-size: 1.1em; color: #999">命令注入</a> <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/"
+                style="font-size: 1.1em; color: #999">数字签名</a> <a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"
+                style="font-size: 1.5em; color: #99a9bf">智能合约</a> <a
+                href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6-CTF/" style="font-size: 1.23em; color: #999ea6">智能合约
+                CTF</a> <a href="/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%AE%A1%E8%AE%A1/"
+                style="font-size: 1.37em; color: #99a4b2">智能合约审计</a></div>
+          </div>
+          <div class="card-widget card-archives">
+            <div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn"
+                href="/archives/" title="查看更多">
+                <i class="fas fa-angle-right"></i></a></div>
+            <ul class="card-archive-list">
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span
+                    class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">5</span></a></li>
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span
+                    class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">1</span></a></li>
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span
+                    class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">1</span></a>
+              </li>
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span
+                    class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">1</span></a></li>
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span
+                    class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">2</span></a></li>
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span
+                    class="card-archive-list-date">七月 2022</span><span class="card-archive-list-count">2</span></a></li>
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/06/"><span
+                    class="card-archive-list-date">六月 2022</span><span class="card-archive-list-count">1</span></a></li>
+              <li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span
+                    class="card-archive-list-date">四月 2022</span><span class="card-archive-list-count">1</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div id="footer-wrap">
+        <div class="copyright">&copy;2021 - 2023 By Banana69</div>
+        <div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener"
+            href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank"
+            rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div>
+        <div class="footer_custom_text">Welcome!</div>
+      </div>
+    </footer>
+  </div>
+  <div id="rightside">
+    <div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i
+          class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i
+          class="fas fa-arrows-alt-h"></i></button></div>
+    <div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i
+          class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i
+          class="fas fa-arrow-up"></i></button></div>
+  </div>
+  <div id="local-search">
+    <div class="search-dialog">
+      <div class="search-dialog__title" id="local-search-title">本地搜索</div>
+      <div id="local-input-panel">
+        <div id="local-search-input">
+          <div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text" /></div>
+        </div>
+      </div>
+      <hr />
+      <div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span>
+    </div>
+    <div id="search-mask"></div>
+  </div>
+  <div>
+    <script src="/js/utils.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+    <script>function panguFn () {
+        if (typeof pangu === 'object') pangu.autoSpacingPage()
+        else {
+          getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+            .then(() => {
+              pangu.autoSpacingPage()
+            })
+        }
+      }
 
-function panguInit () {
-  if (false){
-    GLOBAL_CONFIG_SITE.isPost && panguFn()
-  } else {
-    panguFn()
-  }
-}
+      function panguInit () {
+        if (false) {
+          GLOBAL_CONFIG_SITE.isPost && panguFn()
+        } else {
+          panguFn()
+        }
+      }
 
-document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+      document.addEventListener('DOMContentLoaded', panguInit)</script>
+    <script src="/js/search/local-search.js"></script>
+    <div class="js-pjax"></div>
+    <script defer="defer" id="fluttering_ribbon" mobile="true"
+      src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script>
+    <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </div>
+</body>
+
+</html>
